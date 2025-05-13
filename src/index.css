@@ -1,0 +1,91 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+@import './Components/header/searchbar/searchBar.css';
+@import './GeneralStyles/landing.css';
+
+:root,
+[data-bs-theme=light] {
+  --bs-primary: #008c9e !important;
+  --bs-secondary: #6c757d !important;
+  --bs-primary-text-emphasis: #024149 !important;
+  --bs-secondary-text-emphasis: #2b2f32 !important;
+  --bs-primary-border-subtle: #9eeaf5 !important;
+  --bs-secondary-border-subtle: #c4c8cb !important;
+  --ar-background-image: url("https://definicion.de/wp-content/uploads/2010/10/mapa-1.jpg");
+}
+[data-bs-theme=dark] {
+  --bs-primary-border-subtle: #054851 !important;
+  --bs-secondary-border-subtle: #41464b !important;
+  --ar-background-image: url("https://definicion.de/wp-content/uploads/2010/10/mapa-1.jpg");
+}
+/* Establecer backgrounds con imagenes y colores cambiantes segun modo*/
+.backgroundOnlyImage {
+  background-image: var(--ar-background-image);
+  background-size: cover;
+  background-repeat: no-repeat;
+  min-height: 100vh;
+}
+.backgroundPages {
+  background-image: var(--ar-background-image);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.backgroundFormColor {
+  background-color: var( --bs-body-bg);
+  color: var(--bs-body-color)
+}
+.backgroundElements {
+  background-color: var(--bs-tertiary-bg);
+}
+[data-bs-theme="light"] .coverBack {
+  margin-top:10;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
+  backdrop-filter: blur(5px); /* Efecto de desenfoque */
+  -webkit-backdrop-filter: blur(10px); /* Efecto de desenfoque para Safari */
+  padding: 0.2rem;
+  border-radius: 5px; /* Bordes redondeados */
+  color: black; /* Asegúrate de que el texto sea visible */
+min-height: fit-content; /* Asegura que ocupe al menos la altura completa de la pantalla */
+min-width: fit-content;
+}
+
+[data-bs-theme="dark"] .coverBack {
+  background-color: var( --bs-body-bg);
+  border: none; /* O elimina el borde */
+  margin-top:10;
+  z-index: 10;
+  padding: 0.8rem;
+  border-radius: 12px;
+  min-height: fit-content; /* Asegura que ocupe al menos la altura completa de la pantalla */
+  min-width: fit-content;
+}
+
+[data-bs-theme="light"] .coverAdmin {
+  margin-top:0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.5); /* Fondo semitransparente */
+  backdrop-filter: blur(5px); /* Efecto de desenfoque */
+  -webkit-backdrop-filter: blur(10px); /* Efecto de desenfoque para Safari */
+  padding: 0.2rem;
+  border-radius: 5px; /* Bordes redondeados */
+  color: var(--bs-body-color);
+min-height: fit-content; /* Asegura que ocupe al menos la altura completa de la pantalla */
+min-width: 80vw;
+}
+
+[data-bs-theme="dark"] .coverAdmin {
+  margin-top:0;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.3); /* Fondo semitransparente */
+  backdrop-filter: blur(5px); /* Efecto de desenfoque */
+  -webkit-backdrop-filter: blur(10px); /* Efecto de desenfoque para Safari */
+  padding: 0.2rem;
+  border-radius: 5px; /* Bordes redondeados */
+  color: var(--bs-body-color);
+min-height: fit-content; /* Asegura que ocupe al menos la altura completa de la pantalla */
+min-width: 80vw;
+}
