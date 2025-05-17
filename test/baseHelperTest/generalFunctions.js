@@ -15,13 +15,11 @@ export function mockDeleteFunction (url, result) {
   }
 }
 export const deletFunctionTrue = (url) => {
-  // console.log('probando deleteFunction: ', url);
   return {
     success: true,
     message: `ImageUrl ${url} deleted succesfully`
   }
 }
 export const deletFunctionFalse = (url) => {
-  // console.log('probando deleteErrorFunction: ', url);
   throwError(`Error processing ImageUrl: ${url}`, 500)
 }

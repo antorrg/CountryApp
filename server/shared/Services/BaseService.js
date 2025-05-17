@@ -15,7 +15,7 @@ class BaseService {
       if (whereField && !data[whereField]) {
         eh.throwError(`Missing field '${whereField}' for uniqueness check`, 400)
       }
-      console.log('whereClause:', whereClause)
+      //console.log('whereClause:', whereClause)
       if (whereField) {
         const exists = await this.model.findOne(whereClause)
         if (exists) { eh.throwError(`This ${whereField} already exists`, 400) }

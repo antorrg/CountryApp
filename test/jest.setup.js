@@ -20,7 +20,13 @@ async function initializeDatabase() {
 // Resetea la base de datos antes de cada prueba si es necesario
 export async function resetDatabase() {
   try {
+      const collections = await mongoose.connection.db.collections();
+    for (const coll of collections) {
+      const count = await coll.countDocuments();
+      console.log(`🗃️ antes del reset: ${coll.collectionName}: ${count || 0} documentos`);
+    }
     await mongoose.connection.dropDatabase();
+    console.log(`🔍 Total de colecciones después del drop: ${collections.length}`)
     console.log('Base de datos MongoDB reseteada ✔️');
   } catch (error) {
     console.error('Error reseteando MongoDB ❌', error);

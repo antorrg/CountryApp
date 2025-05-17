@@ -3,8 +3,9 @@ import Test from '../../../test/baseHelperTest/modelTest.js'
 import * as info from './testHelpers/testHelp.js'
 import { setId, getId } from '../../../test/baseHelperTest/testStore.js'
 import mongoose from 'mongoose'
-import { finished } from 'supertest/lib/test.js'
 import * as fns from '../../../test/baseHelperTest/generalFunctions.js'
+import {testSeeds} from './testHelpers/seeds.js'
+import { resetDatabase } from '../../../test/jest.setup.js'
 
 // model, useImages, deleteImages, parserFunction
 const testImsSuccess = new BaseService(Test, true, fns.deletFunctionTrue, info.infoClean, 'Test')
@@ -12,6 +13,9 @@ const testImgFailed = new BaseService(Test, true, fns.deletFunctionFalse, info.i
 const testParsed = new BaseService(Test, false, null, info.infoClean, 'Test')
 
 describe('Unit tests for the BaseService class: CRUD operations.', () => {
+  afterAll(async ()=>{
+    await resetDatabase()
+  })
   describe('The "create" method for creating a service', () => {
     it('should create an item with the correct parameters', async () => {
       const element = { title: 'page', count: 5, picture: 'https//pepe.com' }
@@ -34,13 +38,30 @@ describe('Unit tests for the BaseService class: CRUD operations.', () => {
     })
   })
   describe('"GET" methods. Return one or multiple services..', () => {
+   beforeAll(async()=>{
+    await Test.insertMany(testSeeds)
+   })
     it('"getAll" method: should return an array of services', async () => {
       const queryObject = { page: 1, limit: 10, filters: {}, sort:{} }
       const response = await testParsed.getAll(queryObject)
       expect(response.message).toBe('Elements found successfully!')
-      expect(response.info).toEqual({ page: 1, limit: 10, totalPages: 1, count: 1, sort: {}})
-      expect(response.results).toEqual([info.resultParsedCreate])
+      expect(response.info).toEqual({ page: 1, limit: 10, totalPages: 2, count: 17, sort: {}})
+      expect(response.results.length).toBe(10)
     })
+    it('"getAll" method should return page 2 of results', async () => {
+      const queryObject = { page: 2, limit: 10, filters: {}, sort: {} }
+      const response = await testParsed.getAll(queryObject)
+      expect(response.results.length).toBeLessThanOrEqual(10)
+     expect(response.info.page).toBe(2)
+    })
+    it('"getAll" method should return sorted results (by title desc)', async () => {
+      const queryObject = { page: 1, limit: 5, sort: { title: 'desc' } }
+      const response = await testParsed.getAll(queryObject)
+      const titles = response.results.map(r => r.title)
+      const sortedTitles = [...titles].sort().reverse()
+      expect(titles).toEqual(sortedTitles)
+    })
+
     it('"getById" method: should return an service', async () => {
       const id = getId()
       const response = await testParsed.getById(id)
@@ -58,8 +79,8 @@ describe('Unit tests for the BaseService class: CRUD operations.', () => {
       }
     })
   })
-  describe('Metodo "update". Eliminacion de imagenes viejas del storage.', () => {
-    it('deberia actualizar los elementos y no eliminar imagenes', async () => {
+  describe('The "update" method - Handles removal of old images from storage.', () => {
+    it('should update the document without removing any images', async () => {
       const id = getId()
       const newData = info.newData
       const response = await testParsed.update(id, newData)
@@ -72,13 +93,13 @@ describe('Unit tests for the BaseService class: CRUD operations.', () => {
         matchedCount: 1
       })
     })
-    it('deberia actualizar los elementos y gestionar eliminacion de imagenes', async () => {
+    it('should update the document and remove the previous image', async () => {
       const id = getId()
       const newData = { picture: 'https://imagen.com.ar' }
       const response = await testImsSuccess.update(id, newData)
       expect(response.message).toBe('Test updated successfully!')
     })
-    it('deberia arrojar un error si falla la eliminacion de imagenes', async () => {
+    it('should throw an error if image deletion fails during update', async () => {
       const id = getId()
       const newData = { picture: 'https://imagen44.com.ar' }
       try {
@@ -91,13 +112,13 @@ describe('Unit tests for the BaseService class: CRUD operations.', () => {
       }
     })
   })
-  describe('Metodo "delete".', () => {
-    it('deberia borrar un elemento', async () => {
+  describe('The "delete" method.', () => {
+    it('should delete a document successfully (soft delete)', async () => {
       const id = getId()
       const response = await testImgFailed.delete(id)
       expect(response.message).toBe('Test deleted successfully')
     })
-    it('deberia arrojar un error si falla la eliminacion de imagenes', async () => {
+    it('should throw an error if image deletion fails during hard delete', async () => {
       const id = getId()
       try {
         await testImgFailed.hardDelete(id)
