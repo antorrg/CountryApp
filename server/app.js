@@ -21,7 +21,7 @@ if (env.Status === 'production') {
   })
 }
 
-app.use(mainRouter)
+app.use('/api/v1', mainRouter)
 
 app.use((req, res, next) => {
   return next(eh.middError('Not Found', 404))

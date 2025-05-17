@@ -1,6 +1,35 @@
+// import js from '@eslint/js'
+// import globals from 'globals'
+// import standard from 'eslint-config-standard'
+// import importPlugin from 'eslint-plugin-import'
+// import nPlugin from 'eslint-plugin-n'
+// import promisePlugin from 'eslint-plugin-promise'
+// import reactHooks from 'eslint-plugin-react-hooks'
+// import reactRefresh from 'eslint-plugin-react-refresh'
+
+// export default [
+//   { ignores: ['dist', 'node_modules'] },
+
+//   // 🟦 Config para backend (Node)
+//   {
+//     files: ['server/**/*.js'],
+//     languageOptions: {
+//       ecmaVersion: 2020,
+//       sourceType: 'module',
+//       globals: globals.node,
+//     },
+//     plugins: {
+//       import: importPlugin,
+//       n: nPlugin,
+//       promise: promisePlugin,
+//     },
+//     rules: {
+//       ...js.configs.recommended.rules,
+//       ...standard.rules,
+//     },
+//   },
 import js from '@eslint/js'
 import globals from 'globals'
-import standard from 'eslint-config-standard'
 import importPlugin from 'eslint-plugin-import'
 import nPlugin from 'eslint-plugin-n'
 import promisePlugin from 'eslint-plugin-promise'
@@ -25,10 +54,12 @@ export default [
     },
     rules: {
       ...js.configs.recommended.rules,
-      ...standard.rules,
+      // Define aquí las reglas que necesites de standard
+      'semi': ['error', 'never'],
+      'quotes': ['error', 'single'],
+      // Puedes añadir más reglas según necesites
     },
   },
-
   // 🟨 Config para frontend (React)
   {
     files: ['frontend/**/*.{js,jsx}'],

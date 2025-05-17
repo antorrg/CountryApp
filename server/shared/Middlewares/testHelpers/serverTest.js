@@ -61,7 +61,8 @@ serverTest.get(
   '/test/param',
   MiddlewareHandle.validateQuery(queries),
   (req, res) => {
-    res.status(200).json({ message: 'Passed middleware', data: req.query, validData: req.validatedQuery })
+    res.status(200).json({ message: 'Passed middleware', data: req.query, validData: req.context.query//req.validatedQuery 
+      })
   }
 )
 

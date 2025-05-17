@@ -199,7 +199,9 @@ class MiddlewareHandler {
           validatedQuery[name] = value
         })
 
-        req.validatedQuery = validatedQuery // Nuevo objeto tipado en lugar de modificar req.query
+        //req.validatedQuery = validatedQuery // Nuevo objeto tipado en lugar de modificar req.query
+        req.context = req.context || {}
+        req.context.query = validatedQuery
         next()
       } catch (error) {
         return next(MiddlewareHandler.middError(error.message, 400))
