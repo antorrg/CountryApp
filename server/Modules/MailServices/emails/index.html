@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Recorremundo | Email</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Helvetica Neue', Arial, sans-serif;
+      background-color: #f4f4f4;
+    }
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background-color: #ffffff;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .header {
+      background-color: #0066cc;
+      color: white;
+      padding: 20px;
+      text-align: center;
+    }
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+    }
+    .content {
+      padding: 20px;
+      color: #333333;
+    }
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #0066cc;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: #777;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Recorremundo</h1>
+    </div>
+    <div class="content">
+      <h2>¡Hola, viajero!</h2>
+      <p>Gracias por usar nuestra app para explorar el mundo. Estamos emocionados de acompañarte en tus aventuras.</p>
+      <p>Ya sea que estés investigando países o planificando tu próximo destino, estamos aquí para ayudarte.</p>
+
+      <!-- Puedes incluir un botón si es un email de verificación, reseteo, etc -->
+      <a href="{{action_link}}" class="button">Ver más</a>
+
+      <p style="margin-top: 30px;">Si no esperabas este correo, simplemente ignóralo.</p>
+    </div>
+    <div class="footer">
+      &copy; 2025 Recorremundo. Todos los derechos reservados.
+    </div>
+  </div>
+</body>
+</html>

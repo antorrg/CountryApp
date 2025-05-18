@@ -4,7 +4,7 @@ import * as info from './testHelpers/testHelp.js'
 import { setId, getId } from '../../../test/baseHelperTest/testStore.js'
 import mongoose from 'mongoose'
 import * as fns from '../../../test/baseHelperTest/generalFunctions.js'
-import {testSeeds} from './testHelpers/seeds.js'
+import { testSeeds } from './testHelpers/seeds.js'
 import { resetDatabase } from '../../../test/jest.setup.js'
 
 // model, useImages, deleteImages, parserFunction
@@ -38,21 +38,21 @@ describe('Unit tests for the BaseService class: CRUD operations.', () => {
     })
   })
   describe('"GET" methods. Return one or multiple services..', () => {
-   beforeAll(async()=>{
-    await Test.insertMany(testSeeds)
-   })
+    beforeAll(async ()=>{
+      await Test.insertMany(testSeeds)
+    })
     it('"getAll" method: should return an array of services', async () => {
       const queryObject = { page: 1, limit: 10, filters: {}, sort:{} }
       const response = await testParsed.getAll(queryObject)
       expect(response.message).toBe('Elements found successfully!')
-      expect(response.info).toEqual({ page: 1, limit: 10, totalPages: 2, count: 17, sort: {}})
+      expect(response.info).toEqual({ page: 1, limit: 10, totalPages: 2, count: 17, sort: {} })
       expect(response.results.length).toBe(10)
     })
     it('"getAll" method should return page 2 of results', async () => {
       const queryObject = { page: 2, limit: 10, filters: {}, sort: {} }
       const response = await testParsed.getAll(queryObject)
       expect(response.results.length).toBeLessThanOrEqual(10)
-     expect(response.info.page).toBe(2)
+      expect(response.info.page).toBe(2)
     })
     it('"getAll" method should return sorted results (by title desc)', async () => {
       const queryObject = { page: 1, limit: 5, sort: { title: 'desc' } }

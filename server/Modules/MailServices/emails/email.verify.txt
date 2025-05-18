@@ -1,0 +1,8 @@
+Hola {{name}},
+
+Gracias por registrarte en Recorremundo.
+
+Verifica tu cuenta haciendo clic en este enlace:
+{{verification_link}}
+
+Si no creaste esta cuenta, podés ignorar este mensaje.

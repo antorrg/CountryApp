@@ -56,10 +56,10 @@ class CountriesService extends BaseService {
           page: parseInt(page),
           totalPages: Math.ceil(total / limit),
           sortBy,
-          sort,
+          sort
         },
-        results: this.parserFunction? countries.map(cnt => this.parserFunction(cnt)) : 
-        countries
+        results: this.parserFunction? countries.map(cnt => this.parserFunction(cnt)) :
+          countries
       }
     } catch (err) {
       eh.processError(err, 'Error in getAll')

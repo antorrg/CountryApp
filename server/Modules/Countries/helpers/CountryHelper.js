@@ -1,5 +1,5 @@
 export default class CountryHelper {
-    
+
   static countryDTO (countryDoc) {
     return {
       id: countryDoc._id.toString(),
@@ -11,25 +11,25 @@ export default class CountryHelper {
       flagEmoji: countryDoc.flag || '',
       flagImage: countryDoc.flags?.png || countryDoc.flags?.svg || '',
       enabled: countryDoc.enabled,
-      deleted: countryDoc.deleted,
+      deleted: countryDoc.deleted
     }
   }
   static typeCreate = []
   static typeUpdate = []
   static typeQueries = [{
-    name:'page', 
+    name:'page',
     type:'int'
-     },{
-    name:'limit', 
+  },{
+    name:'limit',
     type:'int'
-     },{
-    name:'name', 
+  },{
+    name:'name',
     type:'string'
-     },{
-    name:'sort', 
+  },{
+    name:'sort',
     type:'string'
-     },{
-    name:'region', 
+  },{
+    name:'region',
     type:'string'
-     }];
+  }]
 }

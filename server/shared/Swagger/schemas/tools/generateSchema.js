@@ -135,7 +135,7 @@ const buildPropertiesBlock = (fields, indent = '            ') => {
 const renderParameters = (params, indent = '    ') => {
   if (!params.length) return ''
   return `${indent}parameters:\n${params.map(p => (
-`${indent}  - in: ${p.in}
+    `${indent}  - in: ${p.in}
 ${indent}    name: ${p.name}
 ${indent}    required: ${p.required}
 ${indent}    schema:

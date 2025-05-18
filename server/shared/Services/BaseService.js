@@ -33,7 +33,7 @@ class BaseService {
   }
 
   async #findElements (queryObject, isAdmin=false) {
-    const { page = 1, limit = 10, filters = {}, sort = {}} = queryObject
+    const { page = 1, limit = 10, filters = {}, sort = {} } = queryObject
     const skip = (page - 1) * limit
 
     // Filtro base para excluir eliminados
@@ -48,19 +48,18 @@ class BaseService {
         query[key] = value
       }
     }
-      const sortOptions = {};
-        for (const key in sort) {
-        const order = sort[key];
-        sortOptions[key] = order === 'desc' ? -1 : 1;
-       }
+    const sortOptions = {}
+    for (const key in sort) {
+      const order = sort[key]
+      sortOptions[key] = order === 'desc' ? -1 : 1
+    }
     const conditionalSearch = isAdmin
-      ? await this.model.find(query).sort(sortOptions).skip(skip).limit(limit) 
+      ? await this.model.find(query).sort(sortOptions).skip(skip).limit(limit)
       : await this.model.findEnabled(query).sort(sortOptions).skip(skip).limit(limit)
 
     const countQuery = isAdmin
-    ? query
-    : { ...query, enabled: true, deleted: false }
-
+      ? query
+      : { ...query, enabled: true, deleted: false }
 
     const [results, total] = await Promise.all([
       conditionalSearch,
@@ -79,7 +78,7 @@ class BaseService {
       results: finalResults
     }
   }
-  
+
   async getAll (queryObject){
     return await this.#findElements(queryObject, false)
   }
@@ -120,18 +119,18 @@ class BaseService {
       eh.processError(error, 'Error updating')
     }
   }
-   async #conditionalDel (id, isHard) {
+  async #conditionalDel (id, isHard) {
     try {
       let imageUrl = ''
-      const register = await this.model.findOne({ _id: id})
+      const register = await this.model.findOne({ _id: id })
       if (!register) { eh.throwError(`${this.modelName} not found`, 404) }
 
       if (this.useImages) { imageUrl = register.picture }
       const  conditionalDelete = isHard
-          ? await this.model.findByIdAndDelete(id)
-          : await this.model.findByIdAndUpdate(id, { deleted: true }, { new: true })
+        ? await this.model.findByIdAndDelete(id)
+        : await this.model.findByIdAndUpdate(id, { deleted: true }, { new: true })
 
-       const erased = await conditionalDelete
+      const erased = await conditionalDelete
       if (this.useImages && imageUrl.trim() && isHard) {
         await this.deleteImages(imageUrl)
       }
@@ -146,13 +145,13 @@ class BaseService {
   }
 
   async delete (id) {
-   return await this.#conditionalDel(id, false)
+    return await this.#conditionalDel(id, false)
   }
 
- async hardDelete (id) {
-  return await this.#conditionalDel(id, true)
- }
- 
+  async hardDelete (id) {
+    return await this.#conditionalDel(id, true)
+  }
+
 }
 
 export default BaseService

@@ -10,7 +10,7 @@ const configEnv = {
 const envFile = configEnv[process.env.NODE_ENV] || '.env.production'
 dotenv.config({ path: envFile })
 
-const { PORT, URI_DB, JWT_SECRET, JWT_EXPIRES_IN, } = process.env
+const { PORT, URI_DB, JWT_SECRET, JWT_EXPIRES_IN, DEFAULT_IMG, EMAIL_ADMIN,PASS_ADMIN } = process.env
 const Status = process.env.NODE_ENV
 
 export default {
@@ -19,5 +19,8 @@ export default {
   UriDb: URI_DB,
   ExpiresIn: JWT_EXPIRES_IN,
   Secret: JWT_SECRET,
+  DefaultImg : DEFAULT_IMG,
+  EmailAdmin: EMAIL_ADMIN,
+  PassAdmin: PASS_ADMIN
 }
 

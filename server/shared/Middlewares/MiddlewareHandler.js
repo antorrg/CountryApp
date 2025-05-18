@@ -11,11 +11,11 @@ class MiddlewareHandler {
   // Nueva función para manejar valores por defecto según el tipo
   static getDefaultValue (type) {
     switch (type) {
-      case 'boolean': return false
-      case 'int': return 1
-      case 'float': return 1.0
-      case 'string': return ''
-      default: return null
+    case 'boolean': return false
+    case 'int': return 1
+    case 'float': return 1.0
+    case 'string': return ''
+    default: return null
     }
   }
 
@@ -43,23 +43,23 @@ class MiddlewareHandler {
     const indexInfo = itemIndex !== null ? ` in item[${itemIndex}]` : ''
 
     switch (fieldType) {
-      case 'boolean':
-        return MiddlewareHandler.validateBoolean(value)
-      case 'int':
-        return MiddlewareHandler.validateInt(value)
-      case 'float':
-        return MiddlewareHandler.validateFloat(value)
-      case 'array':
-        if (!Array.isArray(value)) {
-          throw new Error(`Invalid array value for field ${fieldName}${indexInfo}`)
-        }
-        return value
-      case 'string':
-      default:
-        if (typeof value !== 'string') {
-          throw new Error(`Invalid string value for field ${fieldName}${indexInfo}`)
-        }
-        return value
+    case 'boolean':
+      return MiddlewareHandler.validateBoolean(value)
+    case 'int':
+      return MiddlewareHandler.validateInt(value)
+    case 'float':
+      return MiddlewareHandler.validateFloat(value)
+    case 'array':
+      if (!Array.isArray(value)) {
+        throw new Error(`Invalid array value for field ${fieldName}${indexInfo}`)
+      }
+      return value
+    case 'string':
+    default:
+      if (typeof value !== 'string') {
+        throw new Error(`Invalid string value for field ${fieldName}${indexInfo}`)
+      }
+      return value
     }
   }
 

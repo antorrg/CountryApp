@@ -27,6 +27,7 @@ app.use((req, res, next) => {
   return next(eh.middError('Not Found', 404))
 })
 
+/* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {
   const status = err.status || 500
   const message = err.message || 'Unexpected server error'

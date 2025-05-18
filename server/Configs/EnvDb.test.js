@@ -1,5 +1,4 @@
 import env from './envConfig.js'
-import mongoose from 'mongoose'
 import Country from '../shared/Models/country.js'
 
 describe('Iniciando tests, probando variables de entorno del archivo "envConfig.js" y existencia de tablas en DB.', () => {

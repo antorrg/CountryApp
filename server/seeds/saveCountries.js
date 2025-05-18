@@ -1,6 +1,6 @@
 // services/saveCountries.js
 import axios from 'axios'
-import Country from './Models/country.js'
+import Country from '../shared/Models/country.js'
 
 export const saveCountriesIndividually = async () => {
   try {

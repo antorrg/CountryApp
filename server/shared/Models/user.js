@@ -1,49 +1,58 @@
 import mongoose from 'mongoose'
-import {applyBaseSchema} from '../../server/shared/Models/baseSchemaMixin.js'
+import { applyBaseSchema } from './baseSchemaMixin.js'
 
 const userSchema = new mongoose.Schema(
   {
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: true
     },
     password: {
-        type: String,
-        required: true,
+      type: String,
+      required: true
+    },
+    nickname: {
+      type: String,
+      required: true
     },
     picture: {
       type: String,
-      required: true,
+      required: true
     },
-     name: {
+    name: {
       type: String,
-      required: false,
+      required: false
     },
-     surname: {
+    surname: {
       type: String,
-      required: false,
+      required: false
     },
-     country: {
+    country: {
       type: String,
-      required: false,
+      required: false
     },
     isVerify: {
-    type: Boolean,
-    default: false,
-    required: true,
+      type: Boolean,
+      default: false,
+      required: true
     },
     role: {
-    type: Number,
-    enum: [1, 2, 3, 9],
-    default: 1,
-    required: true,
-   },
-    
-  },
-    {
-      timestamps: true,
+      type: Number,
+      enum: [1, 2, 3, 9],
+      default: 1,
+      required: true
+    },
+    isRoot: {
+      type: Boolean,
+      default: false,
+      required: true
     }
+
+  },
+  {
+    timestamps: true
+  }
 )
 
 applyBaseSchema(userSchema)
