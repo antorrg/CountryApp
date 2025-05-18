@@ -57,5 +57,35 @@ export default class UserHelper{
     }
     next()
   }
+  static typeCreate = [
+    { name: 'email', type: 'string' },
+    { name: 'password', type: 'string' }
+  ]
+  static typeProfile = [
+    { name: 'email', type: 'string' },
+    { name: 'name', type: 'string' },
+    { name: 'username', type: 'string' },
+    { name: 'country', type: 'string' },
+    { name: 'picture', type: 'string' }
+  ]
+  static typeUpgrade = [
+    { name: 'enable', type: 'boolean' },
+    { name: 'role', type: 'string' }
+  ]
+  static typeVerifyPass = [
+    { name: 'id', type: 'string' },
+    { name: 'password', type: 'string' }
+  ]
+  static typePass = [
+    { name: 'password', type: 'string' }
+  ]
+  static typeQueries = [
+    { name: 'page', type: 'int', default: 1 },
+    { name: 'limit', type: 'int', default: 5 },
+    { name: 'name', type: 'string', default:'' },
+    { name: 'sort', type: 'string', default: 'asc' }
+  ]
+  static regexEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+  static regexPassword =/^(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,}$/
 }
 

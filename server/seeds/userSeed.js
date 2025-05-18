@@ -11,7 +11,7 @@ export const userSeed = async ()=>{
       role: 9,
       picture : env.DefaultImg.trim(),
       isVerify: true,
-      isRoot: true,
+      isRoot: true
     }
 
     await userService.create(data, 'email')

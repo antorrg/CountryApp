@@ -4,7 +4,6 @@ import UserService from './user.service.js'
 import UserController from './user.controller.js'
 import UserHelper from './userHelper/UserHelper.js'
 import MiddlewareHandler from '../../shared/Middlewares/MiddlewareHandler.js'
-import * as dt from './userHelper/user.help.js'
 import Auth from '../../shared/Auth/auth.js'
 
 //TODO model(DB_model), useImages(boolean), deleteImages(function), parserFunction(function), modelName(string), emailFunction(function)
@@ -15,28 +14,28 @@ const userRouter = express.Router()
 
 userRouter.post(
   '/create',
-  MiddlewareHandler.validateFields(dt.userCreate),
-  MiddlewareHandler.validateRegex(dt.regexEmail, 'email'),
-  MiddlewareHandler.validateRegex(dt.regexPassword, 'password'),
+  MiddlewareHandler.validateFields(UserHelper.typeCreate),
+  MiddlewareHandler.validateRegex(UserHelper.regexEmail, 'email'),
+  MiddlewareHandler.validateRegex(UserHelper.regexPassword, 'password'),
   UserHelper.userCreateDto,
   controller.create
 )
 userRouter.post(
   '/login',
-  MiddlewareHandler.validateFields(dt.userCreate),
-  MiddlewareHandler.validateRegex(dt.regexEmail, 'email'),
-  MiddlewareHandler.validateRegex(dt.regexPassword, 'password'),
+  MiddlewareHandler.validateFields(UserHelper.typeCreate),
+  MiddlewareHandler.validateRegex(UserHelper.regexEmail, 'email'),
+  MiddlewareHandler.validateRegex(UserHelper.regexPassword, 'password'),
   controller.login
 )
 userRouter.post(
   '/verify',
   Auth.verifyToken,
-  MiddlewareHandler.validateFields(dt.verifyPassword),
-  MiddlewareHandler.validateRegex(dt.regexPassword, 'password'),
+  MiddlewareHandler.validateFields(UserHelper.typeVerifyPass),
+  MiddlewareHandler.validateRegex(UserHelper.regexPassword, 'password'),
   controller.verifyPassword
 )
 userRouter.get('/',
-  MiddlewareHandler.validateQuery(dt.userQueries),
+  MiddlewareHandler.validateQuery(UserHelper.typeQueries),
   controller.getAdmin
 )
 userRouter.get('/:id',
@@ -47,7 +46,7 @@ userRouter.put(
   '/profile/:id',
   Auth.verifyToken,
   MiddlewareHandler.middObjectId('id'),
-  MiddlewareHandler.validateFields(dt.userProfile),
+  MiddlewareHandler.validateFields(UserHelper.typeProfile),
   UserHelper.protectPersonalAccount,
   controller.update
 )
@@ -56,7 +55,7 @@ userRouter.put(
   Auth.verifyToken,
   Auth.checkRole([3,9]),
   MiddlewareHandler.middObjectId('id'),
-  MiddlewareHandler.validateFields(dt.userUpgrade),
+  MiddlewareHandler.validateFields(UserHelper.typeUpgrade),
   UserHelper.userUpgradeDto,
   controller.update
 )
@@ -65,7 +64,8 @@ userRouter.put(
   Auth.verifyToken,
   Auth.checkRole([3,9]),
   MiddlewareHandler.middObjectId('id'),
-  MiddlewareHandler.validateFields(dt.changePassword),
+  MiddlewareHandler.validateFields(UserHelper.typePass),
+  MiddlewareHandler.validateRegex(UserHelper.regexPassword, 'password'),
   controller.update
 )
 userRouter.delete(
