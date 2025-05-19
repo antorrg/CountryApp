@@ -1,8 +1,9 @@
 import BaseEndpoints from './core/BaseEndpoint'
 
-const baseUrl= import.meta.env.VITE_URL;
 
-const countries = new BaseEndpoints(baseUrl, true)
+
+
+const countries = new BaseEndpoints('/api/v1', false)
 
 export const getAllCountries = ()=> countries.get('/', )
 export const getCountry = (id, params)=> countries.get(`/${id}`, params)

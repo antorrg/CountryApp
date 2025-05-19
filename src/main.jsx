@@ -7,12 +7,18 @@ import {Provider as ReduxProvider} from "react-redux";
 import store from './Redux/store.js'
 import './index.css'
 import App from './App.jsx'
+import { ToastContainer } from 'react-toastify';
+import axios from 'axios'
+
+
+axios.defaults.baseURL =import.meta.env.VITE_URL;
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <ReduxProvider store={store}>
         <App />
+        <ToastContainer/>
       </ReduxProvider>
     </BrowserRouter>
   </StrictMode>,

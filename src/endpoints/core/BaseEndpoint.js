@@ -1,6 +1,6 @@
 import axios from 'axios'
 import {showSuccess, showError} from "./toastify"
-import {showConfirmationDialog} from './sweetalert'
+import showConfirmationDialog from './sweetalert'
 
 export default class BaseEndpoints {
   constructor(baseURL, validHeader = false, tokenKey = 'validToken') {

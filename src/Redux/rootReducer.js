@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import publicReducer from './publicReducer';
-import adminReducer from './adminReducer';
+import publicReducer from './publics/publicReducer'
+import adminReducer from './admin/adminReducer';
 
 const rootReducer = combineReducers({
   public: publicReducer,
