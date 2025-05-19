@@ -1,0 +1,23 @@
+import {
+    getAllCountries,
+    getCountry
+} from '../endpoints/publicEndpoints'
+
+export const  PUBLIC_ALL_COUNTRIES = 'PUBLIC_ALL_COUNTRIES';
+export const  PUBLIC_COUNTRY_BY_ID = 'PUBLIC_COUNTRY_BY_ID'
+
+//Public endpoints:
+export const getCountries = (query)=> async(dispatch)=>{
+    const response = await getAllCountries(query)
+    return dispatch({
+        type: PUBLIC_ALL_COUNTRIES,
+        payload: response.data
+    })
+}
+export const getCountry = (id) => async(dispatch)=>{
+    const response = await getCountry(id)
+    return dispatch({
+        type: PUBLIC_COUNTRY_BY_ID,
+        payload: response.data
+    })
+}
