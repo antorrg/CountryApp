@@ -25,6 +25,7 @@ export default class BaseController {
   })
   getAdmin = catchController(async (req, res) => {
     const queryObject = req.context?.query || req.query
+    console.log('aqui estoy')
     const response = await this.service.getAllAdmin(queryObject)
     return BaseController.responder(res, 200, true, response.message, response.info, response.results)
   })

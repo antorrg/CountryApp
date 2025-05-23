@@ -8,7 +8,7 @@ const PublicApp = ({toggleTheme, theme}) => {
         <Header toggleTheme={toggleTheme} theme={theme}/>
       <Routes>
         <Route path="/" element={<Home/>} />
-        <Route path="/detail/:name" element={<CountryDetail/>} />
+        <Route path="/detail/:id" element={<CountryDetail/>} />
         <Route path="/about" element={<About/>} />
         <Route path="/contact" element={<Contact/>} />
       </Routes>

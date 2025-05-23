@@ -13,7 +13,7 @@
     "lint:frontend": "eslint frontend",
     "lint:frontFix": "eslint frontend --fix",
     "preview": "vite preview",
-    "gen:schema": "node src/Swagger/schemas/tools/generateSchema.js",
+    "gen:schema": "node server/shared/Swagger/schemas/tools/generateSchema.js",
     "unit:test": "cross-env NODE_ENV=test jest --detectOpenHandles"
   },
   "dependencies": {

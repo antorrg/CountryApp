@@ -4,8 +4,9 @@ import userRouter from './Modules/Users/user.routes.js'
 
 const mainRouter = express.Router()
 
-mainRouter.use(countryRouter)
 
 mainRouter.use('/user', userRouter)
+
+mainRouter.use('/',countryRouter)
 
 export default mainRouter

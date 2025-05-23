@@ -1,6 +1,7 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
-@import './Components/header/searchbar/searchBar.css';
+@import './Components/searchbar/searchBar.css';
 @import './GeneralStyles/landing.css';
+@import './GeneralStyles/cards.css';
 
 :root,
 [data-bs-theme=light] {

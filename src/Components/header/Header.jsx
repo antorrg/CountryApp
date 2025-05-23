@@ -1,6 +1,6 @@
 import React from 'react'
 import {Link, useLocation} from 'react-router-dom'
-import SearchBar from './searchbar/SearchBar'
+import SearchBar from '../searchbar/SearchBar'
 
 const Header = ({toggleTheme, theme}) => {
   const isHome = useLocation().pathname === '/home'

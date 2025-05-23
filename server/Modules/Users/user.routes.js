@@ -11,6 +11,18 @@ export const userService = new UserService(User, false, null, UserHelper.userCle
 const controller = new UserController(userService)
 
 const userRouter = express.Router()
+userRouter.get(
+  '/',
+  Auth.verifyToken,
+  MiddlewareHandler.validateQuery(UserHelper.typeQueries),
+  controller.getAdmin
+)
+
+userRouter.get('/:id',
+  Auth.verifyToken,
+  MiddlewareHandler.middObjectId('id'),
+  controller.getById
+)
 
 userRouter.post(
   '/create',
@@ -33,14 +45,6 @@ userRouter.post(
   MiddlewareHandler.validateFields(UserHelper.typeVerifyPass),
   MiddlewareHandler.validateRegex(UserHelper.regexPassword, 'password'),
   controller.verifyPassword
-)
-userRouter.get('/',
-  MiddlewareHandler.validateQuery(UserHelper.typeQueries),
-  controller.getAdmin
-)
-userRouter.get('/:id',
-  MiddlewareHandler.middObjectId('id'),
-  controller.getById
 )
 userRouter.put(
   '/profile/:id',

@@ -1,8 +1,12 @@
-import React from 'react'
+import Card from './Card'
 
-const CountryCards = () => {
+const CountryCards = ({info, relativeRoute}) => {
   return (
-    <div>CountryCards</div>
+    <div className='cards'>
+    {info?.map((inf)=>
+    <Card key={inf.id} info={inf} relativeRoute={relativeRoute}/>
+    )}
+    </div>
   )
 }
 

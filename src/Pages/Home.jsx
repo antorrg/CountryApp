@@ -1,6 +1,8 @@
 import {useState, useEffect} from 'react'
 import {useSelector, useDispatch} from 'react-redux'
 import {getCountries }from '../Redux/publics/publicActions'
+import CountryCards from '../Components/cards/CountryCards'
+import Pagination from '../Components/Pagination/Pagination'
 
 
 const Home = () => {
@@ -10,14 +12,9 @@ const Home = () => {
     dispatch(getCountries())
   },[])
   return (
-    <div className="backgroundPages" style={{minHeight: "100vh"}}> 
-    
-    {data?.map((dt)=>
-    <div key={dt.id}style={{maxHeight:'160px', border:'1px solid black', margin:'5px'}} className='backgroundFormColor'>
-      <h5>name: {dt.name}</h5>
-      <img src={dt.flagImage} alt='not found'style={{width:'80px'}}/>
-    </div>
-  )}
+    <div className="container-xxl flex-column backgroundPages" style={{minHeight: "100vh"}}> 
+    <Pagination/>
+    <CountryCards info={data} relativeRoute={'detail'}/>
     </div>
   )
 }

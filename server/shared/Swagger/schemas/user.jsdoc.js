@@ -7,27 +7,6 @@
 
 /**
 * @swagger
-* components:
-*   schemas:
-*     User:
-*       type: object
-*       properties:
-*             name:
-*               type: string
-*               example: name ejemplo
-*               description: Descripción de name
-*             username:
-*               type: string
-*               example: username ejemplo
-*               description: Descripción de username
-*             email:
-*               type: string
-*               example: email ejemplo
-*               description: Descripción de email
- */
-
-/**
-* @swagger
 * '/api/user':
 *   post:
 *     summary: Crear un nuevo user
@@ -39,22 +18,23 @@
 *           schema:
 *             type: object
 *             required:
-*                - name
-*                - username
 *                - email
+*                - password
+*                - 
 *             properties:
-*             name:
-*               type: string
-*               example: name ejemplo
-*               description: Descripción de name
-*             username:
-*               type: string
-*               example: username ejemplo
-*               description: Descripción de username
 *             email:
 *               type: string
+*               format: email
 *               example: email ejemplo
 *               description: Descripción de email
+*             password:
+*               type: string
+*               example: password ejemplo
+*               description: Descripción de password
+*             :
+*               type: string
+*               example:  ejemplo
+*               description: Descripción de 
 *     responses:
 *       201:
 *         description: Creación exitosa
@@ -79,11 +59,11 @@
 *     tags: [Users]
 *     parameters:
 *       - in: query
-*         name: search
+*         name: 
 *         required: false
 *         schema:
 *           type: string
-*         description: Busqueda
+*         description: 
 *     responses:
 *       200:
 *         description: Lista de users
@@ -106,8 +86,8 @@
 *         name: id
 *         required: true
 *         schema:
-*           type: integer
-*         description: Id del usuario
+*           type: string
+*         description: Mongoose objectId
 *     responses:
 *       200:
 *         description: user encontrado
@@ -130,8 +110,8 @@
 *         name: id
 *         required: true
 *         schema:
-*           type: integer
-*         description: Id del usuario
+*           type: string
+*         description: Mongoose objectId
 *     requestBody:
 *       required: true
 *       content:
@@ -139,18 +119,19 @@
 *           schema:
 *             type: object
 *             properties:
-*             name:
-*               type: string
-*               example: name ejemplo
-*               description: Descripción de name
-*             username:
-*               type: string
-*               example: username ejemplo
-*               description: Descripción de username
 *             email:
 *               type: string
+*               format: email
 *               example: email ejemplo
 *               description: Descripción de email
+*             password:
+*               type: string
+*               example: password ejemplo
+*               description: Descripción de password
+*             :
+*               type: string
+*               example:  ejemplo
+*               description: Descripción de 
 *     responses:
 *       200:
 *         description: Actualización exitosa
@@ -169,8 +150,8 @@
 *         name: id
 *         required: true
 *         schema:
-*           type: integer
-*         description: Id del usuario
+*           type: string
+*         description: Mongoose objectId
 *     responses:
 *       200:
 *         description: Eliminado correctamente
