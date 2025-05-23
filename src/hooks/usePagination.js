@@ -1,18 +1,18 @@
 // hooks/usePagination.js
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCountries } from '../Redux/publics/publicActions';
+import { setPage } from '../Redux/filters/filterActions';
 
 export const usePagination = () => {
   const dispatch = useDispatch();
-  const numberPage = useSelector((state) => state.public.currentPage) || 1;
+  const numberPage = useSelector((state) => state.filter.currentPage) || 1;
   const totalPages = useSelector((state) => state.public.totalPages) || 1;
 
   const [inputMode, setInputMode] = useState(false);
   const [inputPage, setInputPage] = useState(numberPage);
 
   useEffect(() => {
-    dispatch(getCountries({ page: inputPage }));
+    dispatch(setPage(inputPage));
   }, [inputPage]);
 
   const setPageSafely = (newPage) => {

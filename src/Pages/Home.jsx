@@ -8,9 +8,14 @@ import Pagination from '../Components/Pagination/Pagination'
 const Home = () => {
   const dispatch = useDispatch()
   const data = useSelector((state)=> state.public.countries)
+  const  { currentPage, name, sort, region,} = useSelector((state) => state.filter);
+
   useEffect(()=>{
-    dispatch(getCountries())
-  },[])
+    const query = {page:currentPage, name, sort, region}
+    console.log('soy la query', query)
+    dispatch(getCountries(query))
+  },[currentPage, name, sort, region,])
+
   return (
     <div className="container-xxl flex-column backgroundPages" style={{minHeight: "100vh"}}> 
     <Pagination/>

@@ -3,8 +3,9 @@ import {
     getCountry
 } from '../../endpoints/publicEndpoints'
 
-export const  PUBLIC_ALL_COUNTRIES = 'PUBLIC_ALL_COUNTRIES';
-export const  PUBLIC_COUNTRY_BY_ID = 'PUBLIC_COUNTRY_BY_ID'
+export const PUBLIC_ALL_COUNTRIES = 'PUBLIC_ALL_COUNTRIES';
+export const PUBLIC_COUNTRY_BY_ID = 'PUBLIC_COUNTRY_BY_ID'
+
 
 //Public endpoints:
 export const getCountries = ({ page = 1, limit = 16, name = '', sort = 'asc', region='' } = {})=> async(dispatch)=>{
@@ -23,3 +24,4 @@ export const getCountryById = (id) => async(dispatch)=>{
         payload: response.data
     })
 }
+

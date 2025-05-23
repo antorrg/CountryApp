@@ -1,6 +1,7 @@
 import {useState} from 'react'
 import {useDispatch} from 'react-redux'
-import { getCountries } from '../../Redux/publics/publicActions'
+import { setName, setRegion, resetFilters } from '../../Redux/filters/filterActions'
+import Order from '../Order/Order'
 
 
 const SearchBar = () => {
@@ -27,11 +28,8 @@ const SearchBar = () => {
 
     const handleSearch = () => {
       if (query.trim()) {
-          const searchType = country ? 'name' : 'region';
-        console.log(`Buscar por ${searchType}:`, query);
-        // Aquí podrías llamar a una función que haga fetch a una API
-        dispatch(getCountries({[searchType]:query}))
-        setQuery('')
+        country ? dispatch(setName(query))
+        : dispatch(setRegion(query))
       }
     }
   return (
@@ -42,7 +40,11 @@ const SearchBar = () => {
             </button>
             {showSearch && (
               <>
-               <button className="btn btn-sm btn-outline-info ms-1 me-2" onClick={handleSwitch}>
+               <button className="btn btn-sm btn-outline-danger ms-1 me-2" onClick={()=>dispatch(resetFilters())}>
+              Reset
+            </button>
+            <Order/>
+               <button className="btn btn-sm btn-outline-info ms-2 me-2" onClick={handleSwitch}>
               {searchConfig.title}
             </button>
               <input 

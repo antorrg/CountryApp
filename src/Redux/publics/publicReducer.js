@@ -6,7 +6,6 @@ import {
 const initialState = {
     countries: [],
     countryById: [],
-    currentPage: 1,
     totalPages:1,
   };
   
@@ -16,7 +15,6 @@ const initialState = {
         return { 
           ...state, 
         countries: payload.results,
-        currentPage: payload.info.page,
         totalPages: payload.info.totalPages 
       }
       case PUBLIC_COUNTRY_BY_ID:
