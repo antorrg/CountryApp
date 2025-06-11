@@ -19,7 +19,7 @@ const Home = () => {
   return (
     <div className="container-xxl flex-column backgroundPages" style={{minHeight: "100vh"}}> 
     <Pagination/>
-    <CountryCards info={data} relativeRoute={'detail'}/>
+    <CountryCards info={data} relativeRoute={'home/detail'}/>
     </div>
   )
 }

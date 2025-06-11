@@ -14,9 +14,10 @@
     "lint:frontFix": "eslint frontend --fix",
     "preview": "vite preview",
     "gen:schema": "node server/shared/Swagger/schemas/tools/generateSchema.js",
-    "unit:test": "cross-env NODE_ENV=test jest --detectOpenHandles"
+    "unit:test": "cross-env NODE_ENV=test jest \"/.unit.test.js\" --detectOpenHandles",
+    "int:test": "cross-env NODE_ENV=test jest \"/.integration.test.js\" --detectOpenHandles"
   },
-  "dependencies": {
+  "dependencies": {       
     "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
     "bootstrap": "^5.3.6",

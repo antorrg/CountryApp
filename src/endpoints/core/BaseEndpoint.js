@@ -65,7 +65,7 @@ export default class BaseEndpoints {
   async get(endpoint, params = {}, auxFunction = null) {
     try {
       const config = this.setAuthHeader();
-      const response = await axios.get(`${this.baseURL}/${endpoint}`, {
+      const response = await axios.get(`${this.baseURL}${endpoint}`, {
         ...config,
         params,
       });

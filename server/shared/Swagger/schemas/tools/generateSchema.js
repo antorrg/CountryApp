@@ -1,14 +1,18 @@
-import fs from 'fs'
-import path, { dirname } from 'path'
-import inquirer from 'inquirer'
-import { fileURLToPath } from 'url'
+import fs from 'fs';
+import path from 'path';
+import inquirer from 'inquirer';
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+import { generateComponentSchema } from './generateComponentSchema.js';
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-const outputPath = path.join(__dirname, '../../schemas')
+
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const outputPath = path.join(__dirname, '../../schemas');
 
 const askFields = async () => {
-  const fields = []
-  let addMore = true
+  const fields = [];
+  let addMore = true;
 
   while (addMore) {
     const { name, type, format } = await inquirer.prompt([
@@ -26,11 +30,11 @@ const askFields = async () => {
         default: '',
         validate: (input) => true
       }
-    ])
+    ]);
 
-    const field = { name, type }
-    if (format.trim()) field.format = format.trim()
-    fields.push(field)
+    const field = { name, type };
+    if (format.trim()) field.format = format.trim();
+    fields.push(field);
 
     const { shouldContinue } = await inquirer.prompt([
       {
@@ -39,17 +43,17 @@ const askFields = async () => {
         message: '¿Querés agregar otro campo?',
         default: true
       }
-    ])
+    ]);
 
-    addMore = shouldContinue
+    addMore = shouldContinue;
   }
 
-  return fields
-}
+  return fields;
+};
 
-const askParameters = async (kind = 'path') => {
-  const result = []
-  let addMore = true
+const askParameters = async (kind) => {
+  const result = [];
+  let addMore = true;
 
   while (addMore) {
     const { name, type, description, required } = await inquirer.prompt([
@@ -67,9 +71,9 @@ const askParameters = async (kind = 'path') => {
         message: '¿Es requerido?',
         default: kind === 'path'
       }
-    ])
+    ]);
 
-    result.push({ name, in: kind, type, description, required })
+    result.push({ name, in: kind, type, description, required });
 
     const { shouldContinue } = await inquirer.prompt([
       {
@@ -78,26 +82,26 @@ const askParameters = async (kind = 'path') => {
         message: `¿Querés agregar otro parámetro (${kind})?`,
         default: false
       }
-    ])
+    ]);
 
-    addMore = shouldContinue
+    addMore = shouldContinue;
   }
 
-  return result
-}
+  return result;
+};
 
 const askSchemaInfo = async () => {
   const { tag } = await inquirer.prompt([
     { type: 'input', name: 'tag', message: 'Nombre del tag (ej: Users)' }
-  ])
+  ]);
 
   const { singular } = await inquirer.prompt([
     { type: 'input', name: 'singular', message: 'Nombre singular del recurso (ej: user)' }
-  ])
+  ]);
 
-  const fields = await askFields()
-  const pathParams = await askParameters('path')
-  const queryParams = await askParameters('query')
+  const fields = await askFields();
+  const pathParams = await askParameters('path');
+  const queryParams = await askParameters('query');
 
   const { includeSchema } = await inquirer.prompt([
     {
@@ -106,7 +110,15 @@ const askSchemaInfo = async () => {
       message: '¿Querés incluir la definición reusable (components.schemas)?',
       default: false
     }
-  ])
+  ]);
+  const { basePrefix } = await inquirer.prompt([
+  {
+    type: 'input',
+    name: 'basePrefix',
+    message: '¿Cuál es el path base para la ruta? (ej: api, api/v1 o vacío para raíz)',
+    default: 'api'
+  }
+]);
 
   return {
     tag,
@@ -114,51 +126,53 @@ const askSchemaInfo = async () => {
     fields,
     pathParams,
     queryParams,
-    includeSchema
-  }
-}
+    includeSchema,
+    basePrefix
+  };
+};
 
 const buildPropertiesBlock = (fields, indent = '            ') => {
   return fields.map(f => {
     const example =
-      f.type === 'string'
-        ? `${f.name} ejemplo`
-        : f.type === 'boolean'
-          ? true
-          : 1
+      f.type === 'string' ? `${f.name} ejemplo` :
+      f.type === 'boolean' ? true :
+      1;
 
-    return `${indent}${f.name}:\n${indent}  type: ${f.type}${f.format ? `\n${indent}  format: ${f.format}` : ''}\n${indent}  example: ${example}\n${indent}  description: Descripción de ${f.name}`
-  }).join('\n')
-}
+    return `${indent}${f.name}:\n${indent}  type: ${f.type}${f.format ? `\n${indent}  format: ${f.format}` : ''}\n${indent}  example: ${example}\n${indent}  description: Descripción de ${f.name}`;
+  }).join('\n');
+};
 
 // 👇 cambia el método renderParameters
 const renderParameters = (params, indent = '    ') => {
-  if (!params.length) return ''
+  if (!params.length) return '';
   return `${indent}parameters:\n${params.map(p => (
-    `${indent}  - in: ${p.in}
+`${indent}  - in: ${p.in}
 ${indent}    name: ${p.name}
 ${indent}    required: ${p.required}
 ${indent}    schema:
 ${indent}      type: ${p.type}
 ${indent}    description: ${p.description}`
-  )).join('\n')}`
-}
+  )).join('\n')}`;
+};
 
 const wrapWithJSDoc = (content) => {
-  return '/**\n' + content.trim().split('\n').map(line => line.trim() ? `* ${line}` : '*').join('\n') + '\n */'
-}
+  return '/**\n' + content.trim().split('\n').map(line => line.trim() ? `* ${line}` : '*').join('\n') + '\n */';
+};
 
-const generateJSDoc = ({ tag, singular, fields, pathParams, queryParams, includeSchema }) => {
-  const schemaName = singular.charAt(0).toUpperCase() + singular.slice(1)
-  const upperTag = tag.charAt(0).toUpperCase() + tag.slice(1)
-  const required = fields.map(f => `               - ${f.name}`).join('\n')
-  const props = buildPropertiesBlock(fields)
-  const parametersBlock = renderParameters([...pathParams, ...queryParams])
+const generateJSDoc = (schema) => {
+  const { tag, singular, fields, pathParams, queryParams, includeSchema } = schema
+  const schemaName = singular.charAt(0).toUpperCase() + singular.slice(1);
+  const upperTag = tag.charAt(0).toUpperCase() + tag.slice(1);
+  const required = fields.map(f => `               - ${f.name}`).join('\n');
+  const props = buildPropertiesBlock(fields);
+  const parametersBlock = renderParameters([...pathParams, ...queryParams]);
   const allParametersBlock = renderParameters(queryParams)
 
-  const basePath = `/api/${singular}`
-  const pathWithId = `${basePath}/{id}`
-  const blocks = []
+  //const basePath = `/api/${singular}`;
+  const prefix = schema.basePrefix?.replace(/^\/|\/$/g, ''); // limpia barras
+  const basePath = `/${[prefix, singular].filter(Boolean).join('/')}`;
+  const pathWithId = `${basePath}/{id}`;
+  const blocks = [];
 
   // Tag block
   blocks.push(wrapWithJSDoc(`
@@ -166,7 +180,7 @@ const generateJSDoc = ({ tag, singular, fields, pathParams, queryParams, include
 tags:
   - name: ${upperTag}
     description: Operaciones relacionadas con ${tag.toLowerCase()}
-`))
+`));
 
   // Schema block (solo una vez si includeSchema es true)
   if (includeSchema) {
@@ -178,7 +192,7 @@ components:
       type: object
       properties:
 ${props}
-`))
+`));
   }
 
   // Endpoints
@@ -212,7 +226,7 @@ ${props}
                   type: string
                 results:
                   $ref: '#/components/schemas/${schemaName}'
-`))
+`));
 
   blocks.push(wrapWithJSDoc(`
 @swagger
@@ -230,7 +244,7 @@ ${allParametersBlock}
               type: array
               items:
                 $ref: '#/components/schemas/${schemaName}'
-`))
+`));
 
   blocks.push(wrapWithJSDoc(`
 @swagger
@@ -248,7 +262,7 @@ ${renderParameters(pathParams)}
               $ref: '#/components/schemas/${schemaName}'
       404:
         description: ${singular} no encontrado
-`))
+`));
 
   blocks.push(wrapWithJSDoc(`
 @swagger
@@ -270,7 +284,7 @@ ${props}
         description: Actualización exitosa
       400:
         description: Error de validación
-`))
+`));
 
   blocks.push(wrapWithJSDoc(`
 @swagger
@@ -284,25 +298,26 @@ ${renderParameters(pathParams)}
         description: Eliminado correctamente
       404:
         description: ${singular} no encontrado
-`))
+`));
 
-  return blocks.join('\n\n')
-}
+  return blocks.join('\n\n');
+};
 
-const generateSchemaFile = async (schemaInfo) => {
-  if (!fs.existsSync(outputPath)) fs.mkdirSync(outputPath, { recursive: true })
+const generateSchemaFile = async (schemaInfo)=> {
+  if (!fs.existsSync(outputPath)) fs.mkdirSync(outputPath, { recursive: true });
 
-  const fileName = `${schemaInfo.singular}.jsdoc.js`
-  const filePath = path.join(outputPath, fileName)
-  const jsdocContent = generateJSDoc(schemaInfo)
+  const fileName = `${schemaInfo.singular}.jsdoc.ts`;
+  const filePath = path.join(outputPath, fileName);
+  const jsdocContent = generateJSDoc(schemaInfo);
 
-  fs.writeFileSync(filePath, jsdocContent)
-  console.log(`✅ JSDoc generado: docs/jsdoc/${fileName}`)
-}
+  fs.writeFileSync(filePath, jsdocContent);
+  console.log(`✅ JSDoc generado: src/Shared/Swagger/schemas/${fileName}`);
+};
 
 const main = async () => {
-  const schemaInfo = await askSchemaInfo()
-  await generateSchemaFile(schemaInfo)
-}
+  const schemaInfo = await askSchemaInfo();
+  await generateSchemaFile(schemaInfo);
+  await generateComponentSchema()
+};
 
-main()
+main();

@@ -1,0 +1,28 @@
+{
+  "Product": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "integer",
+        "example": 1
+      },
+      "name": {
+        "type": "string",
+        "example": "pepito"
+      },
+      "price": {
+        "type": "number",
+        "example": 122.5
+      },
+      "stock": {
+        "type": "integer",
+        "example": 5
+      }
+    },
+    "required": [
+      "id",
+      "name",
+      "price"
+    ]
+  }
+}

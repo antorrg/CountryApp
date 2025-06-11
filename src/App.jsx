@@ -38,7 +38,7 @@ function App() {
         <Route path="/" element={<Landing/>} />
         <Route path="/home/*" element={<PublicApp toggleTheme={toggleTheme} theme={theme}/>} />
 
-        <Route path="*" element={<h1>404 Not Found</h1>} /> 
+        {/* <Route path="*" element={<h1>404 Not Found</h1>} />  */}
       </Routes>
       
     </>

@@ -20,7 +20,7 @@ const initialState = {
       case PUBLIC_COUNTRY_BY_ID:
         return {
           ...state,
-          countryById: payload
+          countryById: payload.results
         }
       default:
         return state;

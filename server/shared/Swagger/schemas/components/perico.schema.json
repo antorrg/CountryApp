@@ -1,0 +1,23 @@
+{
+  "Perico": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "example": "aodifaosidfjasodifjasdi"
+      },
+      "title": {
+        "type": "string",
+        "example": "titulo"
+      },
+      "name": {
+        "type": "string",
+        "example": "nombre"
+      }
+    },
+    "required": [
+      "id",
+      "title"
+    ]
+  }
+}

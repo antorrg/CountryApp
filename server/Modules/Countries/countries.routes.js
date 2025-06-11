@@ -23,7 +23,7 @@ countryRouter.get(
 
 countryRouter.get(
   '/:id',
-  MiddlewareHandler.middObjectId('id'),
+  //MiddlewareHandler.middObjectId('id'),
   country.getById
 )
 

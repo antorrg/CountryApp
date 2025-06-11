@@ -21,7 +21,7 @@ export const getCountryById = (id) => async(dispatch)=>{
     const response = await getCountry(id)
     return dispatch({
         type: PUBLIC_COUNTRY_BY_ID,
-        payload: response.data
+        payload: response
     })
 }
 

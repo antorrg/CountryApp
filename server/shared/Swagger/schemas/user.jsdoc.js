@@ -7,9 +7,11 @@
 
 /**
 * @swagger
-* '/api/user':
+* '/api/v1/user/create':
 *   post:
 *     summary: Crear un nuevo user
+*     security:
+*       - bearerAuth: []
 *     tags: [Users]
 *     requestBody:
 *       required: true
@@ -20,7 +22,6 @@
 *             required:
 *                - email
 *                - password
-*                - 
 *             properties:
 *             email:
 *               type: string
@@ -31,10 +32,6 @@
 *               type: string
 *               example: password ejemplo
 *               description: Descripción de password
-*             :
-*               type: string
-*               example:  ejemplo
-*               description: Descripción de 
 *     responses:
 *       201:
 *         description: Creación exitosa
@@ -53,17 +50,65 @@
 
 /**
 * @swagger
-* '/api/user':
+* '/api/v1/user/login':
+*   post:
+*     summary: Iniciar sesión
+*     tags: [Users]
+*     requestBody:
+*       required: true
+*       content:
+*         application/json:
+*           schema:
+*             type: object
+*             required:
+*                - email
+*                - password
+*             properties:
+*             email:
+*               type: string
+*               format: email
+*               example: email ejemplo
+*               description: Descripción de email
+*             password:
+*               type: string
+*               example: password ejemplo
+*               description: Descripción de password
+*     responses:
+*       200:
+*         description: Login successfully
+*         content:
+*           application/json:
+*             schema:
+*               type: object
+*               properties:
+*                 success:
+*                   type: boolean
+*                 message:
+*                   type: string
+*                 results:
+*                   type: object
+*                   properties:
+*                     user:
+*                       $ref: '#/components/schemas/User'   
+*                     token:
+*                       type: string
+ */
+
+/**
+* @swagger
+* '/api/v1/user':
 *   get:
 *     summary: Obtener todos los users
+*     security:
+*       - bearerAuth: []
 *     tags: [Users]
 *     parameters:
 *       - in: query
-*         name: 
+*         name: name
 *         required: false
 *         schema:
 *           type: string
-*         description: 
+*         description: User name
 *     responses:
 *       200:
 *         description: Lista de users
@@ -77,9 +122,11 @@
 
 /**
 * @swagger
-* '/api/user/{id}':
+* '/api/v1/user/{id}':
 *   get:
 *     summary: Obtener un user por ID
+*     security:
+*       - bearerAuth: []
 *     tags: [Users]
 *     parameters:
 *       - in: path
@@ -87,7 +134,7 @@
 *         required: true
 *         schema:
 *           type: string
-*         description: Mongoose objectId
+*         description: User id
 *     responses:
 *       200:
 *         description: user encontrado
@@ -101,9 +148,11 @@
 
 /**
 * @swagger
-* '/api/user/{id}':
+* '/api/v1/user/{id}':
 *   put:
 *     summary: Actualizar un user
+*     security:
+*       - bearerAuth: []
 *     tags: [Users]
 *     parameters:
 *       - in: path
@@ -111,7 +160,7 @@
 *         required: true
 *         schema:
 *           type: string
-*         description: Mongoose objectId
+*         description: User id
 *     requestBody:
 *       required: true
 *       content:
@@ -128,10 +177,6 @@
 *               type: string
 *               example: password ejemplo
 *               description: Descripción de password
-*             :
-*               type: string
-*               example:  ejemplo
-*               description: Descripción de 
 *     responses:
 *       200:
 *         description: Actualización exitosa
@@ -141,9 +186,11 @@
 
 /**
 * @swagger
-* '/api/user/{id}':
+* '/api/v1/user/{id}':
 *   delete:
 *     summary: Eliminar un user
+*     security:
+*       - bearerAuth: []
 *     tags: [Users]
 *     parameters:
 *       - in: path
@@ -151,7 +198,7 @@
 *         required: true
 *         schema:
 *           type: string
-*         description: Mongoose objectId
+*         description: User id
 *     responses:
 *       200:
 *         description: Eliminado correctamente
