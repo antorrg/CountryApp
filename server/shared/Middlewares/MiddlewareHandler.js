@@ -1,7 +1,7 @@
 import { validate as uuidValidate } from 'uuid'
 import mongoose from 'mongoose'
-import { AuxValid } from './aux/auxValid'
-import { ValidateComplexFields } from './aux/validateComplexFields'
+import { AuxValid } from './aux/auxValid.js'
+import { ValidateComplexFields } from './aux/validateComplexFields.js'
 
 export default class MiddlewareHandler {
 

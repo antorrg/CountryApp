@@ -1,4 +1,4 @@
-import { AuxValid } from './auxValid'
+import { AuxValid } from './auxValid.js'
 import mongoose from 'mongoose'
 
 const allowedCategories = ['adventure', 'cultural', 'gastronomic', 'family', 'business', 'romantic']

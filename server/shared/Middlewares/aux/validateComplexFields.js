@@ -1,4 +1,4 @@
-import { AuxValid } from './auxValid'
+import { AuxValid } from './auxValid.js'
 
 export class ValidateComplexFields{
   static validateFieldsWithItems (requiredFields = [], secondFields = [], arrayFieldName) {
