@@ -1,7 +1,7 @@
-import { AuxValid } from "./auxValid";
+import { AuxValid } from './auxValid'
 
 export class ValidateComplexFields{
-    static validateFieldsWithItems (requiredFields = [], secondFields = [], arrayFieldName) {
+  static validateFieldsWithItems (requiredFields = [], secondFields = [], arrayFieldName) {
     return (req, res, next) => {
       try {
         // Copiar datos del body

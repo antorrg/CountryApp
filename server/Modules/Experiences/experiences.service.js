@@ -18,38 +18,38 @@ export default class ExperienceService extends BaseService{
     const response = await ExperiencesHelper.getPopularOfMonth(this.model, countryId, month, year, limit)
     return response
   }
-  async addLike(experienceId, userId){//Experience , experienceId, userId
+  async addLike (experienceId, userId){//Experience , experienceId, userId
     const response = await ExperienceSocialMethods.addLike(this.model, experienceId, userId)
     return response
   }
-  async addDisLike(experienceId, userId){
+  async addDisLike (experienceId, userId){
     const response = await ExperienceSocialMethods.addDislike(this.model, experienceId, userId)
     return response
   }
-  async addComment(experienceId, userId, data){//Experience , experienceId, userId, data
+  async addComment (experienceId, userId, data){//Experience , experienceId, userId, data
     const response = await ExperienceSocialMethods.addComment(this.model, experienceId, userId, data)
     return response
   }
-  async deleteComment(experienceId, userId){
+  async deleteComment (experienceId, userId){
     const response = await ExperienceSocialMethods.deleteComment(this.model, experienceId, userId)
     return response
   }
 
-  async reportExperience(experienceId, userId, reason ){
+  async reportExperience (experienceId, userId, reason ){
     const response = ExperienceReport.reportExperience(this.model, experienceId, userId, reason)
     return response
   }
   //async reportComment (Experience, experienceId, commentId, userId, reason = ''
-  async reportComment(experienceId, commentId, userId, reason ){
+  async reportComment (experienceId, commentId, userId, reason ){
     const response = await ExperienceReport.reportComment(this.model, experienceId, commentId, userId, reason )
   }
   //  async moderateExperience (Experience, experienceId, action = 'restore'
-  async moderateExperience(experienceId, action ){
+  async moderateExperience (experienceId, action ){
     const response = await ExperienceReport.moderateExperience(this.model, experienceId, action )
     return response
   }
   // async moderateComment (Experience, experienceId, commentId, action = 'restore'
-  async moderateComment(experienceId, commentId, action){
+  async moderateComment (experienceId, commentId, action){
     const response = await ExperienceReport.moderateComment(this.model, experienceId, commentId, action)
     return response
   }

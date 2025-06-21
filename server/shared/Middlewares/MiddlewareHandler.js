@@ -4,7 +4,7 @@ import { AuxValid } from './aux/auxValid'
 import { ValidateComplexFields } from './aux/validateComplexFields'
 
 export default class MiddlewareHandler {
-  
+
   static validateFieldsWithItems = (requiredFields, secondFields, arrayFieldName) => ValidateComplexFields.validateFieldsWithItems(requiredFields, secondFields, arrayFieldName)
 
   static validateFields (requiredFields = []) {
@@ -111,14 +111,5 @@ export default class MiddlewareHandler {
       if (!Number.isInteger(Number(id))) return next(AuxValid.middError('Parametros no permitidos', 400))
       next()
     }
-  }
-
-  static logRequestBody (req, res, next) {
-    if (process.env.NODE_ENV !== 'test') {
-      return next()
-    }
-    const timestamp = new Date().toISOString()
-    console.log(`[${timestamp}] Request Body:`, req.body)
-    next()
   }
 }

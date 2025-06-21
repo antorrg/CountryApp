@@ -33,10 +33,10 @@ const experienceSchema = new mongoose.Schema(
       type: Date,
       required: true
     },
-    media: {
-      photos: [String],
-      videos: [String]
-    },
+    media: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Media'
+    }],
     tags: [String],
     category: {
       type: String,
