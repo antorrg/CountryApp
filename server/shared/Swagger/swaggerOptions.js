@@ -1,21 +1,21 @@
 import env from '../../Configs/envConfig.js'
-import {loadComponentSchemas} from './loadComponents.js'
-import fs from 'fs';
-import path from 'path';
+import { loadComponentSchemas } from './loadComponents.js'
+import fs from 'fs'
+import path from 'path'
 
-function getJsdocFiles(dir){
-  const absDir = path.resolve(process.cwd(), dir);
+function getJsdocFiles (dir){
+  const absDir = path.resolve(process.cwd(), dir)
   return fs.readdirSync(absDir)
-    .filter(file => file.endsWith('.jsdoc.ts') || file.endsWith('.jsdoc.js'))
-    .map(file => path.join(dir, file).replace(/\\/g, '/'));
+    .filter(file => file.endsWith('.jsdoc.js') || file.endsWith('.jsdoc.ts'))
+    .map(file => path.join(dir, file).replace(/\\/g, '/'))
 }
-const apis = getJsdocFiles('./src/Shared/Swagger/schemas');
+const apis = getJsdocFiles('./server/shared/Swagger/schemas')
 
 const swaggerOptions = {
   swaggerDefinition: {
     openapi: '3.0.0',
     info: {
-      title: "Countries app",
+      title: 'Countries app',
       version: '1.0.0',
       description: 'Documentación de la API Countries app con Swagger. Este modelo es ilustrativo'
     },
@@ -25,7 +25,7 @@ const swaggerOptions = {
         url: `http://localhost:${env.Port}`
       }
     ],
-     components: {
+    components: {
       schemas: loadComponentSchemas(),
       securitySchemes: {
         bearerAuth: {
@@ -34,11 +34,11 @@ const swaggerOptions = {
           bearerFormat: 'JWT'
         }
       }
-    },
+    }
     // security: [
     //   {
     //     bearerAuth: []
-       //}
+    //}
     //]
   },
   apis,

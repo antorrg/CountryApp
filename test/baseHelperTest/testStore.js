@@ -1,4 +1,5 @@
 let token = ''
+let AdminToken = ''
 let userId = ''
 
 export const setToken = (newToken) => {
@@ -8,7 +9,13 @@ export const setToken = (newToken) => {
 export const getToken = () => {
   return token
 }
+export const setEmailToken = (newToken) => {
+  AdminToken = newToken
+}
 
+export const getEmailToken = () => {
+  return AdminToken 
+}
 export const setId = (newid) => {
   userId = newid
 }

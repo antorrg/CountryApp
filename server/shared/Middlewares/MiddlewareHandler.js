@@ -1,82 +1,26 @@
 import { validate as uuidValidate } from 'uuid'
 import mongoose from 'mongoose'
+import { AuxValid } from './aux/auxValid'
+import { ValidateComplexFields } from './aux/validateComplexFields'
 
-class MiddlewareHandler {
-  static middError (message, status = 500) {
-    const error = new Error(message)
-    error.status = status
-    return error
-  }
-
-  // Nueva función para manejar valores por defecto según el tipo
-  static getDefaultValue (type) {
-    switch (type) {
-    case 'boolean': return false
-    case 'int': return 1
-    case 'float': return 1.0
-    case 'string': return ''
-    default: return null
-    }
-  }
-
-  static validateBoolean (value) {
-    if (typeof value === 'boolean') return value
-    if (value === 'true') return true
-    if (value === 'false') return false
-    throw new Error('Invalid boolean value')
-  }
-
-  static validateInt (value) {
-    const intValue = Number(value)
-    if (isNaN(intValue) || !Number.isInteger(intValue)) throw new Error('Invalid integer value')
-    return intValue
-  }
-
-  static validateFloat (value) {
-    const floatValue = parseFloat(value)
-    if (isNaN(floatValue)) throw new Error('Invalid float value')
-    return floatValue
-  }
-
-  // Nueva función para aislar la lógica de validación
-  static validateValue (value, fieldType, fieldName, itemIndex = null) {
-    const indexInfo = itemIndex !== null ? ` in item[${itemIndex}]` : ''
-
-    switch (fieldType) {
-    case 'boolean':
-      return MiddlewareHandler.validateBoolean(value)
-    case 'int':
-      return MiddlewareHandler.validateInt(value)
-    case 'float':
-      return MiddlewareHandler.validateFloat(value)
-    case 'array':
-      if (!Array.isArray(value)) {
-        throw new Error(`Invalid array value for field ${fieldName}${indexInfo}`)
-      }
-      return value
-    case 'string':
-    default:
-      if (typeof value !== 'string') {
-        throw new Error(`Invalid string value for field ${fieldName}${indexInfo}`)
-      }
-      return value
-    }
-  }
+export default class MiddlewareHandler {
+  
+  static validateFieldsWithItems = (requiredFields, secondFields, arrayFieldName) => ValidateComplexFields.validateFieldsWithItems(requiredFields, secondFields, arrayFieldName)
 
   static validateFields (requiredFields = []) {
     return (req, res, next) => {
       const newData = req.body
       if (!newData || Object.keys(newData).length === 0) {
-        return next(MiddlewareHandler.middError('Invalid parameters', 400))
+        return next(AuxValid.middError('Invalid parameters', 400))
       }
       const missingFields = requiredFields.filter(field => !(field.name in newData))
       if (missingFields.length > 0) {
-        return next(MiddlewareHandler.middError(`Missing parameters: ${missingFields.map(f => f.name).join(', ')}`, 400))
+        return next(AuxValid.middError(`Missing parameters: ${missingFields.map(f => f.name).join(', ')}`, 400))
       }
       try {
         requiredFields.forEach(field => {
           const value = newData[field.name]
-          newData[field.name] = MiddlewareHandler.validateValue(value, field.type, field.name)
+          newData[field.name] = AuxValid.validateValue(value, field.type, field.name)
         })
 
         Object.keys(newData).forEach(key => {
@@ -85,99 +29,10 @@ class MiddlewareHandler {
           }
         })
       } catch (error) {
-        return next(MiddlewareHandler.middError(error.message, 400))
+        return next(AuxValid.middError(error.message, 400))
       }
       req.body = newData
       next()
-    }
-  }
-
-  static validateFieldsWithItems (requiredFields = [], secondFields = [], arrayFieldName) {
-    return (req, res, next) => {
-      try {
-        // Copiar datos del body
-        const firstData = { ...req.body } // Datos principales
-        const secondData = Array.isArray(req.body[arrayFieldName])
-          ? [...req.body[arrayFieldName]] // Array dinámico
-          : null
-
-        // Validar existencia de 'firstData'
-        if (!firstData || Object.keys(firstData).length === 0) {
-          return next(MiddlewareHandler.middError('Invalid parameters', 400))
-        }
-
-        // Verificar campos faltantes en 'firstData'
-        const missingFields = requiredFields.filter((field) => !(field.name in firstData))
-        if (missingFields.length > 0) {
-          return next(MiddlewareHandler.middError(`Missing parameters: ${missingFields.map(f => f.name).join(', ')}`, 400))
-        }
-
-        try {
-          requiredFields.forEach(field => {
-            const value = firstData[field.name]
-            firstData[field.name] = MiddlewareHandler.validateValue(value, field.type, field.name)
-          })
-
-          // Filtrar campos adicionales no permitidos en `firstData`
-          Object.keys(firstData).forEach(key => {
-            if (!requiredFields.some(field => field.name === key)) {
-              delete firstData[key]
-            }
-          })
-        } catch (error) {
-          return next(MiddlewareHandler.middError(error.message, 400))
-        }
-
-        // Validar existencia y estructura de `secondData`
-        if (!secondData || secondData.length === 0) {
-          return next(MiddlewareHandler.middError(`Missing ${arrayFieldName} array or empty array`, 400))
-        }
-
-        // Validar contenido de 'secondData' (no debe contener strings)
-        const invalidStringItems = secondData.filter((item) => typeof item === 'string')
-        if (invalidStringItems.length > 0) {
-          return next(
-            MiddlewareHandler.middError(
-              `Invalid "${arrayFieldName}" content: expected objects but found strings (e.g., ${invalidStringItems[0]})`,
-              400
-            )
-          )
-        }
-
-        // Validar cada objeto dentro de 'secondData'
-        const validatedSecondData = secondData.map((item, index) => {
-          const missingItemFields = secondFields.filter((field) => !(field.name in item))
-          if (missingItemFields.length > 0) {
-            return next(MiddlewareHandler.middError(
-              `Missing parameters in ${arrayFieldName}[${index}]: ${missingItemFields.map(f => f.name).join(', ')}`,
-              400
-            ))
-          }
-
-          // Validar tipos de campos en cada `item` usando la función aislada
-          secondFields.forEach(field => {
-            const value = item[field.name]
-            item[field.name] = MiddlewareHandler.validateValue(value, field.type, field.name, index)
-          })
-
-          // Filtrar campos adicionales en cada `item`
-          return secondFields.reduce((acc, field) => {
-            acc[field.name] = item[field.name]
-            return acc
-          }, {})
-        })
-
-        // Actualizar `req.body` con datos validados
-        req.body = {
-          ...firstData,
-          [arrayFieldName]: validatedSecondData // Asignar dinámicamente
-        }
-
-        // Continuar al siguiente middleware
-        next()
-      } catch (err) {
-        return next(MiddlewareHandler.middError(err.message, 400)) // Manejar errores
-      }
     }
   }
 
@@ -186,25 +41,23 @@ class MiddlewareHandler {
     return (req, res, next) => {
       try {
         const validatedQuery = {}
-
         requiredFields.forEach(({ name, type, default: defaultValue }) => {
           let value = req.query[name]
 
           if (value === undefined) {
-            value = defaultValue !== undefined ? defaultValue : MiddlewareHandler.getDefaultValue(type)
+            value = defaultValue !== undefined ? defaultValue : AuxValid.getDefaultValue(type)
           } else {
-            value = MiddlewareHandler.validateValue(value, type, name)
+            value = AuxValid.validateValue(value, type, name)
           }
 
           validatedQuery[name] = value
         })
-
         //req.validatedQuery = validatedQuery // Nuevo objeto tipado en lugar de modificar req.query
         req.context = req.context || {}
         req.context.query = validatedQuery
         next()
       } catch (error) {
-        return next(MiddlewareHandler.middError(error.message, 400))
+        return next(AuxValid.middError(error.message, 400))
       }
     }
   }
@@ -212,15 +65,15 @@ class MiddlewareHandler {
   static validateRegex (validRegex, nameOfField, message = null) {
     return (req, res, next) => {
       if (!validRegex || !nameOfField || nameOfField.trim() === '') {
-        return next(MiddlewareHandler.middError('Missing parameters in function!', 400))
+        return next(AuxValid.middError('Missing parameters in function!', 400))
       }
       const field = req.body[nameOfField]
       const personalizedMessage = message ? ' ' + message : ''
       if (!field || typeof field !== 'string' || field.trim() === '') {
-        return next(MiddlewareHandler.middError(`Missing ${nameOfField}`, 400))
+        return next(AuxValid.middError(`Missing ${nameOfField}`, 400))
       }
       if (!validRegex.test(field)) {
-        return next(MiddlewareHandler.middError(`Invalid ${nameOfField} format!${personalizedMessage}`, 400))
+        return next(AuxValid.middError(`Invalid ${nameOfField} format!${personalizedMessage}`, 400))
       }
       next()
     }
@@ -229,8 +82,8 @@ class MiddlewareHandler {
   static middUuid (fieldName) {
     return (req, res, next) => {
       const id = req.params[fieldName]
-      if (!id) return next(MiddlewareHandler.middError('Falta el id', 400))
-      if (!uuidValidate(id)) return next(MiddlewareHandler.middError('Parametros no permitidos', 400))
+      if (!id) return next(AuxValid.middError('Falta el id', 400))
+      if (!uuidValidate(id)) return next(AuxValid.middError('Parametros no permitidos', 400))
       next()
     }
   }
@@ -240,11 +93,11 @@ class MiddlewareHandler {
       const id = req.params[fieldName]
 
       if (!id) {
-        return next(MiddlewareHandler.middError('Falta el id', 400))
+        return next(AuxValid.middError('Falta el id', 400))
       }
 
       if (!mongoose.Types.ObjectId.isValid(id)) {
-        return next(MiddlewareHandler.middError('Id no válido', 400))
+        return next(AuxValid.middError('Id no válido', 400))
       }
 
       next()
@@ -254,8 +107,8 @@ class MiddlewareHandler {
   static middIntId (fieldName) {
     return (req, res, next) => {
       const id = req.params[fieldName]
-      if (!id) return next(MiddlewareHandler.middError('Falta el id', 400))
-      if (!Number.isInteger(Number(id))) return next(MiddlewareHandler.middError('Parametros no permitidos', 400))
+      if (!id) return next(AuxValid.middError('Falta el id', 400))
+      if (!Number.isInteger(Number(id))) return next(AuxValid.middError('Parametros no permitidos', 400))
       next()
     }
   }
@@ -269,5 +122,3 @@ class MiddlewareHandler {
     next()
   }
 }
-
-export default MiddlewareHandler

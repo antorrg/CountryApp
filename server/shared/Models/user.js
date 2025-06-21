@@ -56,6 +56,8 @@ const userSchema = new mongoose.Schema(
 )
 
 applyBaseSchema(userSchema)
+//userSchema.index({ email: 1 }, { unique: true });
+//userSchema.index({ nickname: 'text' });
 
 const User = mongoose.model('User', userSchema)
 

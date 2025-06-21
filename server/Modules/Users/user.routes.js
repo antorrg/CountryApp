@@ -4,7 +4,7 @@ import UserService from './user.service.js'
 import UserController from './user.controller.js'
 import UserHelper from './userHelper/UserHelper.js'
 import MiddlewareHandler from '../../shared/Middlewares/MiddlewareHandler.js'
-import Auth from '../../shared/Auth/auth.js'
+import { Auth } from '../../shared/Auth/auth.js'
 
 //TODO model(DB_model), useImages(boolean), deleteImages(function), parserFunction(function), modelName(string), emailFunction(function)
 export const userService = new UserService(User, false, null, UserHelper.userCleaner, 'user', null)

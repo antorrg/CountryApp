@@ -15,7 +15,7 @@ export const userSeed = async ()=>{
       isRoot: true
     }
     const exists = await User.find()
-    if(exists.length>0){
+    if (exists.length>0){
       console.log('The database document already contain users')
       return
     }

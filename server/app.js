@@ -6,8 +6,18 @@ import mainRouter from './routes.js'
 import eh from './Configs/errorHandlers.js'
 import env from './Configs/envConfig.js'
 import path from 'path'
+import swaggerUi from 'swagger-ui-express'
+import swaggerJsDoc from 'swagger-jsdoc'
+import swaggerOptions from './shared/Swagger/swaggerOptions.js'
 const dirname = path.resolve()
+console.log('direccion: ',path.join(process.cwd(), 'server/locales'))
 
+const swaggerDocs = swaggerJsDoc(swaggerOptions)
+const swaggerUiOptions = {
+  swaggerOptions: {
+    docExpansion: 'none' // 👈 Oculta todas las rutas al cargar
+  }
+}
 const app = express()
 app.use(morgan('dev'))
 app.use(cors())
@@ -19,6 +29,9 @@ if (env.Status === 'production') {
   app.get('/', (req, res) => {
     res.sendFile('index.html')
   })
+}
+if (env.Status === 'development') {
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerUiOptions))
 }
 
 app.use('/api/v1', mainRouter)

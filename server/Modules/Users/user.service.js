@@ -1,5 +1,5 @@
 import BaseService from '../../shared/Services/BaseService.js'
-import Auth from '../../shared/Auth/auth.js'
+import { Auth } from '../../shared/Auth/auth.js'
 import bcrypt from 'bcrypt'
 import eh from '../../Configs/errorHandlers.js'
 
@@ -19,7 +19,7 @@ export default class UserService extends BaseService{
     const passwordMatch = await bcrypt.compare(data.password, userFound.password)
     if (!passwordMatch){eh.throwError('Invalid password', 400)}
     if (!userFound.enabled){eh.throwError('User bloqued', 400)}
-    if (!userFound.isVerify){eh.throwError('User account not verify', 400)}
+    //if (!userFound.isVerify){eh.throwError('User account not verify', 400)}
     return userFound
   }
   async login (data){
@@ -28,7 +28,7 @@ export default class UserService extends BaseService{
       return {
         message: 'Login successfully!',
         results: {
-          data: this.parserFunction? this.parserFunction(verify): verify,
+          user: this.parserFunction? this.parserFunction(verify): verify,
           token: Auth.generateToken(verify)
         }
       }
@@ -56,6 +56,7 @@ export default class UserService extends BaseService{
       ? {
         ...data,
         email: register.email,
+        nickname: register.nickname || register.email.split('@')[0],
         password: register.password,
         role: 9,
         enabled: true,

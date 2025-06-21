@@ -12,6 +12,9 @@ app.listen(env.Port, async() => {
         //await saveCountriesIndividually ()
         await userSeed()
         console.log(`Server is running on http://localhost:${env.Port}\nServer in ${env.Status}`);
+        if(env.Status === 'development'){
+      console.log(`Swagger: Vea y pruebe los endpoints en http://localhost:${env.Port}/api-docs`)
+    }
     } catch (error) {
         throw error;
     }

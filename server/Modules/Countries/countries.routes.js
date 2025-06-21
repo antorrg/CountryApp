@@ -16,14 +16,13 @@ const country = new BaseController(countryServ)
 
 const countryRouter = express.Router()
 
-
 countryRouter.get(
-  '/', 
+  '/',
   country.getAll)
 
 countryRouter.get(
   '/:id',
-  //MiddlewareHandler.middObjectId('id'),
+  MiddlewareHandler.middObjectId('id'),
   country.getById
 )
 

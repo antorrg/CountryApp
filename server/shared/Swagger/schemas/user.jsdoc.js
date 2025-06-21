@@ -89,7 +89,7 @@
 *                   type: object
 *                   properties:
 *                     user:
-*                       $ref: '#/components/schemas/User'   
+*                       $ref: '#/components/schemas/User'
 *                     token:
 *                       type: string
  */
