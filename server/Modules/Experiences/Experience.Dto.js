@@ -1,4 +1,6 @@
+export default class ExperienceDto{
 
+}
 /*
 Datos de creacion:
 userId:

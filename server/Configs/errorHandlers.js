@@ -1,4 +1,5 @@
 import env from './envConfig.js'
+import mongoose from 'mongoose'
 
 class CustomError extends Error {
   constructor (log = false) {
@@ -68,12 +69,5 @@ export default {
       next()
     }
   }
-}
-/*
-Ejemplo de uso:
- } catch (err) {
-      Preservamos el error original pero añadimos contexto
-      errorHandler.processError(err, 'Error al buscar usuario');
-    }
 
-      */
+}

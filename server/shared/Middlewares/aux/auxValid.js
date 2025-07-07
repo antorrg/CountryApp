@@ -2,7 +2,7 @@
 export class AuxValid{
   static middError (message, status = 500) {
     const error = new Error(message)
-    error.status = status
+    error.status = Number(status)
     return error
   }
 

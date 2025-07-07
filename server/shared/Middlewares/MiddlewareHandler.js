@@ -112,4 +112,11 @@ export default class MiddlewareHandler {
       next()
     }
   }
+  static dbStatusChecker (req, res, next) {
+    const dbState = mongoose.connection.readyState
+    if (dbState !== 1) {
+      return next(AuxValid.middError('Servicio temporalmente no disponible. Base de datos desconectada.', 503))
+    }
+    next()
+  }
 }

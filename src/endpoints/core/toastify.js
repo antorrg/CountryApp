@@ -6,7 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
     console.log('Error: ', error)
     if (error.response) {
       const status = error.response.status;
-      const data = error.response.data.error;
+      const data = error.response.data.message;
         toast.error(`Error ${status}. ${data}`);
       }else if (error.request) {
       // La solicitud fue realizada pero no se recibió respuesta

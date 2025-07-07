@@ -9,13 +9,13 @@ export class Auth {
     const jwtExpiresIn = expiresIn ?? Math.ceil(envConfig.ExpiresIn * 60 * 60)
     const secret = envConfig.Secret
     return pkg.sign(
-      { userId: user.id, email: user.email, internalData: intData },
+      { userId: user.id.toString(), email: user.email, internalData: intData },
       secret,
       { expiresIn: jwtExpiresIn }
     )
   }
   static generateEmailVerificationToken (user, expiresIn ) {
-    const userId = user.id
+    const userId = user.id.toString()
     const secret= envConfig.Secret
     const jwtExpiresIn = expiresIn ?? '8h'
     return pkg.sign(

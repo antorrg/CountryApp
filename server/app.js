@@ -4,6 +4,7 @@ import cors from 'cors'
 import helmet from 'helmet'
 import mainRouter from './routes.js'
 import eh from './Configs/errorHandlers.js'
+import MiddlewareHandler from './shared/Middlewares/MiddlewareHandler.js'
 import env from './Configs/envConfig.js'
 import path from 'path'
 import swaggerUi from 'swagger-ui-express'
@@ -34,10 +35,12 @@ if (env.Status === 'development') {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerUiOptions))
 }
 
-app.use('/api/v1', mainRouter)
+//app.use(MiddlewareHandler.dbStatusChecker)
+
+app.use('/api/v1', MiddlewareHandler.dbStatusChecker, mainRouter)
 
 app.use((req, res, next) => {
-  return next(eh.middError('Not Found', 404))
+  return next(eh.middError('Route not Found', 404))
 })
 
 /* eslint-disable no-unused-vars */
@@ -46,7 +49,7 @@ app.use((err, req, res, next) => {
   const message = err.message || 'Unexpected server error'
   res.status(status).json({
     success: false,
-    message,
+    message: message,
     results: 'Fail'
   })
 })

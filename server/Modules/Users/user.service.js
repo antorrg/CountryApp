@@ -15,8 +15,9 @@ export default class UserService extends BaseService{
       :  { _id: data.id, deleted: false }
 
     const userFound = await this.model.findOne(userWhere)
+    console.log('soy verify: ', userFound)
     if (!userFound){eh.throwError('User not found', 404)}
-    const passwordMatch = await bcrypt.compare(data.password, userFound.password)
+    const passwordMatch = await bcrypt.compare(data.password,userFound.password)
     if (!passwordMatch){eh.throwError('Invalid password', 400)}
     if (!userFound.enabled){eh.throwError('User bloqued', 400)}
     //if (!userFound.isVerify){eh.throwError('User account not verify', 400)}
