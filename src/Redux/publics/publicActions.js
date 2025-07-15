@@ -5,6 +5,7 @@ import {
 
 export const PUBLIC_ALL_COUNTRIES = 'PUBLIC_ALL_COUNTRIES';
 export const PUBLIC_COUNTRY_BY_ID = 'PUBLIC_COUNTRY_BY_ID'
+export const EXPERIENCES = 'EXPERIENCES'
 
 
 //Public endpoints:

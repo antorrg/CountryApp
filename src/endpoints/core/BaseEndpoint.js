@@ -61,8 +61,8 @@ export default class BaseEndpoints {
     const response = await axios.delete(`${this.baseURL}/${endpoint}`, config);
     return response;
   }
-
-  async get(endpoint, params = {}, auxFunction = null) {
+  
+   async get(endpoint, params = {}, auxFunction = null) {
     try {
       const config = this.setAuthHeader();
       const response = await axios.get(`${this.baseURL}${endpoint}`, {

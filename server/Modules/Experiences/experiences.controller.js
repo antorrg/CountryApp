@@ -6,17 +6,18 @@ export default class ExperienceController extends BaseController{
     super(service)
   }
   getFeedByCountry  = eh.catchController(async (req, res)=>{
-    const { id } = req.params
+    const { countryId } = req.params
     const limit = req.context.query.limit || 10
-    const response = await this.service.getFeedByCountry(id, limit)
+    const response = await this.service.getFeedByCountry(countryId, limit)
     return BaseController.responder(200, true, '', null, response)
   })
   getPopularOfMonth = eh.catchController(async (req, res)=>{
-    const { id } = req.params
+    const { countryId } = req.params
     const { month, year, limit } =req.context.query
-    const response = await this.service.getPopularOfMonth(id, month, year, limit)
+    const response = await this.service.getPopularOfMonth(countryId , month, year, limit)
     return BaseController.responder(200, true, '', response)
   })
+ 
   addLike = eh.catchController(async (req, res)=>{
     const response = await this.service.addLike()
     return BaseController.responder(200, true, '', response)

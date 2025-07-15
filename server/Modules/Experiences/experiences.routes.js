@@ -7,17 +7,25 @@ const experienceService = new ExperienceService(Experience )
 const controller = new ExperienceController(experienceService)
 const experienceRoute = express.Router()
 
-experienceRoute.get(
-  '/country/:id/experiences',
-  controller.getFeedByCountry
-)
 
 experienceRoute.get(
   '/experiences',
   controller.getAll
 )
 
-experienceRoute.get()
+experienceRoute.get(
+  '/experiences/:id'
+)
+experienceRoute.post()
+
+experienceRoute.put()
+
+experienceRoute.delete()
+
+experienceRoute.get(
+  '/country/:id/experiences',
+  controller.getFeedByCountry
+)
 
 experienceRoute.post(
   '/experience/:id/like'

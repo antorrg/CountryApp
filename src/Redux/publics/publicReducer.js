@@ -1,11 +1,13 @@
 import {
   PUBLIC_ALL_COUNTRIES,
   PUBLIC_COUNTRY_BY_ID,
+  EXPERIENCES,
 
 } from './publicActions'
 const initialState = {
     countries: [],
     countryById: [],
+    experiences:[],
     totalPages:1,
   };
   
