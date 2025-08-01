@@ -40,10 +40,8 @@ export default class UserService extends BaseService{
   async verifyPassword (data){
     try {
       await this.#validateUser(data, false)
-      return {
-        message: 'Password verified successfully!',
-        results: null
-      }
+      const password = data.newPassword
+      return await super.update(id, {password})
     } catch (error) {
       eh.processError(error,'Verify password error')
     }

@@ -22,7 +22,7 @@ const swaggerUiOptions = {
 const app = express()
 app.use(morgan('dev'))
 app.use(cors())
-app.use(helmet())
+//app.use(helmet())
 app.use(express.json())
 app.use(eh.validJson)
 if (env.Status === 'production') {

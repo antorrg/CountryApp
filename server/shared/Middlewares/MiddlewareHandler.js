@@ -1,40 +1,12 @@
 import { validate as uuidValidate } from 'uuid'
 import mongoose from 'mongoose'
 import { AuxValid } from './aux/auxValid.js'
-import { ValidateComplexFields } from './aux/validateComplexFields.js'
+import {ValidateSchema} from './aux/validateSchema/ValidateSchema.js'
+
 
 export default class MiddlewareHandler {
 
-  static validateFieldsWithItems = (requiredFields, secondFields, arrayFieldName) => ValidateComplexFields.validateFieldsWithItems(requiredFields, secondFields, arrayFieldName)
-
-  static validateFields (requiredFields = []) {
-    return (req, res, next) => {
-      const newData = req.body
-      if (!newData || Object.keys(newData).length === 0) {
-        return next(AuxValid.middError('Invalid parameters', 400))
-      }
-      const missingFields = requiredFields.filter(field => !(field.name in newData))
-      if (missingFields.length > 0) {
-        return next(AuxValid.middError(`Missing parameters: ${missingFields.map(f => f.name).join(', ')}`, 400))
-      }
-      try {
-        requiredFields.forEach(field => {
-          const value = newData[field.name]
-          newData[field.name] = AuxValid.validateValue(value, field.type, field.name)
-        })
-
-        Object.keys(newData).forEach(key => {
-          if (!requiredFields.some(field => field.name === key)) {
-            delete newData[key]
-          }
-        })
-      } catch (error) {
-        return next(AuxValid.middError(error.message, 400))
-      }
-      req.body = newData
-      next()
-    }
-  }
+  static validateFields = (schema) => ValidateSchema.validate(schema)
 
   // MiddlewareHandler.validateQuery([{name: 'authorId', type: 'int', required: true}]),
   static validateQuery (requiredFields = []) {

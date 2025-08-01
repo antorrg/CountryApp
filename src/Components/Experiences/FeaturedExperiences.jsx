@@ -1,7 +1,7 @@
 import {Link} from 'react-router-dom'
-import { useReduxFetch } from '../../hooks/useReduxFetch'
+import Comments from './Comments/Comments'
 
-const Experiences = ({experiences}) => {
+const FeaturedExperiences = ({experiences, comments}) => {
   return (
     <div>
            <div className="col-md-6">
@@ -15,6 +15,7 @@ const Experiences = ({experiences}) => {
                 <p className="text-muted" style={{fontSize: '0.9rem'}}>{exp.description.slice(0, 100)}...</p>
                 <span className="badge bg-success">⭐ {exp.rating}</span>
               </div>
+              <Comments comments={comments}/>
             </Link>
           </div>
         ))}
@@ -24,4 +25,4 @@ const Experiences = ({experiences}) => {
   )
 }
 
-export default Experiences
+export default FeaturedExperiences

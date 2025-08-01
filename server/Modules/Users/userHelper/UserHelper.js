@@ -74,7 +74,8 @@ export default class UserHelper{
   ]
   static typeVerifyPass = [
     { name: 'id', type: 'string' },
-    { name: 'password', type: 'string' }
+    { name: 'password', type: 'string' },
+    {name:'newPassword', type: 'string'}
   ]
   static typePass = [
     { name: 'password', type: 'string' }
