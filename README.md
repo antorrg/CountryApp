@@ -16,8 +16,6 @@ API REST desarrollada en **Node.js** para la gestión de tareas, incluye autenti
 ## 📦 Instalación
 
 ```bash
-git clone https://github.com/tuUsuario/taskmanager-api.git
-cd taskmanager-api
-npm install
-
+```
+---
 
