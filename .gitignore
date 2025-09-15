@@ -40,7 +40,7 @@ build/Release
 dist/
 data/
 dataSaved/
-uploads/*
+!uploads/.gitkeep
 
 # Dependency directories
 node_modules/
