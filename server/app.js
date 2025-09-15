@@ -4,14 +4,14 @@ import cors from 'cors'
 import helmet from 'helmet'
 import mainRouter from './routes.js'
 import eh from './Configs/errorHandlers.js'
-import MiddlewareHandler from './shared/Middlewares/MiddlewareHandler.js'
 import env from './Configs/envConfig.js'
 import path from 'path'
 import swaggerUi from 'swagger-ui-express'
 import swaggerJsDoc from 'swagger-jsdoc'
-import swaggerOptions from './shared/Swagger/swaggerOptions.js'
+import swaggerOptions from './Shared/Swagger/swaggerOptions.js'
 const dirname = path.resolve()
 console.log('direccion: ',path.join(process.cwd(), 'server/locales'))
+console.log('imageDir: ',path.join(dirname, 'uploads'))
 
 const swaggerDocs = swaggerJsDoc(swaggerOptions)
 const swaggerUiOptions = {
@@ -25,6 +25,9 @@ app.use(cors())
 //app.use(helmet())
 app.use(express.json())
 app.use(eh.validJson)
+if(env.Status !== 'production'){
+  app.use(express.static(path.join(dirname, 'uploads')))
+}
 if (env.Status === 'production') {
   app.use(express.static(path.join(dirname, 'dist')))
   app.get('/', (req, res) => {
@@ -35,13 +38,11 @@ if (env.Status === 'development') {
   app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs, swaggerUiOptions))
 }
 
-//app.use(MiddlewareHandler.dbStatusChecker)
+app.use('/api/v1', mainRouter)
 
-app.use('/api/v1', MiddlewareHandler.dbStatusChecker, mainRouter)
-
-app.use((req, res, next) => {
-  return next(eh.middError('Route not Found', 404))
-})
+// app.use((req, res, next) => {
+//   return next(eh.middError('Route not Found', 404))
+// })
 
 /* eslint-disable no-unused-vars */
 app.use((err, req, res, next) => {

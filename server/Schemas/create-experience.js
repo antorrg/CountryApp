@@ -1,49 +1,49 @@
 export default {
   userId: {
-    type: "string"
+    type: 'string'
   },
   countryId: {
-    type: "string"
+    type: 'string'
   },
   title: {
-    type: "string"
+    type: 'string'
   },
   description: {
-    type: "string"
+    type: 'string'
   },
   rating: {
-    type: "float",
+    type: 'float',
     optional: true
   },
   media: {
     photos: {
-      "0": {
-        type: "string"
+      '0': {
+        type: 'string'
       }
     },
     videos: {
-      "0": {
-        type: "string"
+      '0': {
+        type: 'string'
       }
     }
   },
   tags: {
-    "0": {
-      type: "string"
+    '0': {
+      type: 'string'
     }
   },
   category: {
     enum: {
-      "0": {
-        type: "string"
+      '0': {
+        type: 'string'
       }
     }
   },
   budget: {
     enum: {
-      "0": {
-        type: "string"
+      '0': {
+        type: 'string'
       }
     }
   }
-};
+}

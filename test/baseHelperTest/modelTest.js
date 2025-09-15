@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+/*import mongoose from "mongoose";
 import {applyBaseSchema} from '../../server/shared/Models/baseSchemaMixin.js'
 
 const testSchema = new mongoose.Schema(
@@ -29,3 +29,4 @@ applyBaseSchema(testSchema)
 const Test = mongoose.model("Test", testSchema);
 
 export default Test;
+*/

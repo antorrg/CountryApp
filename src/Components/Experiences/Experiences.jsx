@@ -1,26 +1,23 @@
-import {Link} from 'react-router-dom'
+import {Link, useParams} from 'react-router-dom'
 import { useReduxFetch } from '../../hooks/useReduxFetch'
+import { getExperiencesByCountryId } from '../../Redux/publics/publicActions'
+import Experience from './Experience'
 
-const Experiences = ({experiences}) => {
+const Experiences = () => {
+const {id} = useParams()
+ const expFound= useReduxFetch(getExperiencesByCountryId, state => state.public.experiences, [id],  [id])
   return (
     <div>
-           <div className="col-md-6">
-      <h4>🌍 Experiencias destacadas</h4>
+      {/* <div className="col-md-4"> */}
+      <h4 className='text-body'>🌍 Experiencias destacadas</h4>
+      <button className="badge bg-success">Nueva experiencia</button>
       <div className="row">
-        {experiences?.map(exp => (
-          <div className="col-12 mb-3" key={exp.id}>
-            <Link to={`/experiences/${exp.id}`} className="text-decoration-none">
-              <div className="card shadow-sm p-2 h-100">
-                <h6>{exp.title}</h6>
-                <p className="text-muted" style={{fontSize: '0.9rem'}}>{exp.description.slice(0, 100)}...</p>
-                <span className="badge bg-success">⭐ {exp.rating}</span>
-              </div>
-            </Link>
-          </div>
+        {expFound?.map(exp => (
+          <Experience key={exp.id} exp={exp}/>
         ))}
       </div>
     </div>
-  </div>
+  // </div>
   )
 }
 

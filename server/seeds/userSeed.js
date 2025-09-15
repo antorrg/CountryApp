@@ -1,5 +1,5 @@
-import { userService } from '../Modules/Users/user.routes.js'
-import User from '../shared/Models/user.js'
+import { userService } from '../Features/Users/user.routes.js'
+import User from '../Shared/Models/user.js'
 import env from '../Configs/envConfig.js'
 import bcrypt from 'bcrypt'
 
